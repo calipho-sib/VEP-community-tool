@@ -1,6 +1,11 @@
 {
-  "name": "vep-community-tool",
+  "name": "VEP-community-tool",
+  "description": "A community tool to visualise VEP data using neXtProt tools",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/calipho-sib/VEP-community-tool"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -10,9 +15,13 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "match-sorter": "^6.3.0",
+    "papaparse": "^5.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "react-table": "^7.7.0",
+    "react-table-plugins": "^1.3.1",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
@@ -39,5 +48,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.2.5",
+    "@types/react-table": "^7.7.1"
   }
 }
