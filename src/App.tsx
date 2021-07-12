@@ -1,5 +1,4 @@
 import FeatureViewerComponent from "./components/FeatureViewer";
-
 import "./App.css";
 
 const App = () => {

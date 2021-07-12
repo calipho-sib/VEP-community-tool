@@ -42,13 +42,12 @@ export const FEATURE_DATA = [
   },
   {
     data: [
-      { x: 52, y: 52 },
-      { x: 92, y: 92 },
+      { x: 57, y: 87, description: "C peptide", id: "b1"  },
     ],
-    name: "test feature 2",
+    name: "Propeptide",
     className: "test2",
     color: "#007800",
-    type: "unique",
+    type: "rect",
     filter: "type2",
   },
   {

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { createFeature } from "feature-viewer";
+import {
+  createFeature,
+  NXUtils,
+  Nextprot,
+  NXViewerUtils,
+} from "feature-viewer";
 
 import { DEFAULT_SEQUENCE, FEATURE_DATA, DEFAULT_OPTIONS } from "../utils/data";
 import Table from "./Table";
@@ -13,36 +18,42 @@ export type VariantData = {
 };
 
 const FeatureViewerComponent = () => {
-  const [data, setData] = useState<VariantData[]>([]);
+  const [data, setData] = useState<VariantData[] | []>([]);
+  const [currentIsoform, setCurrentIsoform] = useState<any>();
 
   const CONTAINER_ID = "fv1";
-
+  
   useEffect(() => {
     document.getElementById(CONTAINER_ID)!.innerHTML = "";
+    let nx = new Nextprot.Client("Calipho Group", "VEP commumity tool");
 
-    let fv = new createFeature(
-      DEFAULT_SEQUENCE,
-      `#${CONTAINER_ID}`,
-      DEFAULT_OPTIONS
-    );
+    var nxEntry = "NX_P07711";
 
-    FEATURE_DATA.map((feature) => {
-      fv.addFeature(feature);
+    console.log(nxEntry, nx);
+
+    let rawData: any;
+    let sequences: any;
+
+    nx.getIsoformMapping(nxEntry).then((data: any) => {
+      console.log(data);
     });
 
-    fv.onVariantAdded((d: CustomEvent) => {
-      setData([...d.detail]);
-    });
+    nx.getProteinSequence(nxEntry).then(function (s: any) {
+      console.log(s);
+      rawData = s;
+      sequences = rawData[0];
 
-    fv.onGetPredictions((d: CustomEvent) => {
-      const variantValues = d.detail;
+      for (let i = 0; i < rawData.length - 1; i++) {
+        console.log(rawData[i].metadata);
+        var feat = NXUtils.convertMappingsToIsoformMap(
+          rawData[i],
+          {},
+          "propeptide",
+          ""
+        );
 
-      variantValues.map((v: VariantData) => {
-        v.sift = Math.random().toFixed(2);
-        v.polyphen = Math.random().toFixed(2);
-      });
-
-      setData(variantValues);
+        console.log(feat);
+      }
     });
   }, []);
 

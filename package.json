@@ -2,6 +2,7 @@
   "name": "VEP-community-tool",
   "description": "A community tool to visualise VEP data using neXtProt tools",
   "version": "0.1.0",
+  "homepage": "http://calipho-sib.github.io/VEP-community-tool",
   "repository": {
     "type": "git",
     "url": "https://github.com/calipho-sib/VEP-community-tool"
@@ -15,6 +16,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "axios": "^0.21.1",
     "match-sorter": "^6.3.0",
     "papaparse": "^5.3.1",
     "react": "^17.0.2",
@@ -29,7 +31,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +55,7 @@
   },
   "devDependencies": {
     "@types/papaparse": "^5.2.5",
-    "@types/react-table": "^7.7.1"
+    "@types/react-table": "^7.7.1",
+    "gh-pages": "^3.2.3"
   }
 }
