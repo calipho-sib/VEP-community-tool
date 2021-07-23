@@ -2,6 +2,7 @@
   --blue: #166ff8;
   --white: #ffffff;
   --grey-200: #f9fbfc;
+  --grey-300: #e6e6e6;
   --grey-400: #989898;
   --grey-600: #3a3a3a;
 }
@@ -36,7 +37,7 @@ body {
   color: var(--grey-600);
   text-transform: uppercase;
   font-weight: 200;
-  border: 1px solid var(--grey-400);
+  border: 1px solid var(--grey-300);
 }
 
 .variant-data-table > thead > tr {
@@ -47,7 +48,7 @@ body {
 
 .variant-data-table > tbody > tr {
   background-color: var(--white);
-  border: 1px solid var(--grey-400);
+  border: 1px solid var(--grey-300);
 }
 
 .variant-data-table > tbody > tr > td {
@@ -77,12 +78,19 @@ body {
   outline: none;
   color: var(--white);
   border: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
   padding: 1rem 1.8rem;
   border-radius: 0.4rem;
   background-color: var(--blue);
   margin-left: 1rem;
+}
+
+.export-btn > img {
+  padding: 0.5rem;
+  fill: #FFF;
+  height: 1.3rem;
+  width: auto;
 }
 
 .table-text {
@@ -100,4 +108,25 @@ body {
   border-radius: 0.3rem;
   outline: var(--blue);
   border: 1px solid var(--grey-400);
+}
+
+.isoform-select {
+  cursor: pointer;
+  width: 15rem;
+  z-index: 10;
+  font-size: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.isoform-select > option{
+  cursor: pointer;
+}
+
+.isoform-select-wrapper > p {
+  font-size: 0.9rem;
+}
+
+.loader {
+  height: 300px;
+  width: 300px;
 }

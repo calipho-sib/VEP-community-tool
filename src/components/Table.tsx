@@ -9,7 +9,7 @@ import { useExportData } from "react-table-plugins";
 import { useState, useMemo } from "react";
 
 import { getExportFileBlob } from "../utils/exportFile";
-import { VariantData } from "./FeatureViewer";
+import { VariantData } from "../utils/types";
 
 const RESULT_COLUMN_DATA = [
   {
@@ -103,7 +103,7 @@ const Table = (props: TableProps) => {
       data,
       getExportFileBlob,
       //@ts-ignore
-      initialState: { pageIndex: 0, pageSize: 5 },
+      initialState: { pageIndex: 0, pageSize: 10 },
     },
     useGlobalFilter,
     usePagination,
@@ -135,12 +135,6 @@ const Table = (props: TableProps) => {
                 {headerGroup.headers.map((column: ColumnInstance) => {
                   return (
                     <th
-                      style={{
-                        backgroundColor:
-                          column.id === "polyphen" || column.id === "sift"
-                            ? "#d5e6ff"
-                            : "#FFF",
-                      }}
                       {...column.getHeaderProps()}
                     >
                       {column.render("Header")}
