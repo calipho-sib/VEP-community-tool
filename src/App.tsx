@@ -1,7 +1,14 @@
-import React from "react";
+import FeatureViewerComponent from "./components/FeatureViewer";
 
-function App() {
-  return <div className="App"></div>;
+import "./App.css";
+
+const App = () => {
+  return (
+    <div className="App">
+      <img src="nextprot-logo.png" className="logo" alt="neXtProt logo" />
+      <FeatureViewerComponent />
+    </div>
+  );
 }
 
 export default App;
