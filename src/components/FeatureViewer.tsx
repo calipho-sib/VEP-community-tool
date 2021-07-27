@@ -17,12 +17,14 @@ import {
   MetaData,
   VariantData,
 } from "../utils/types";
+import { ERROR } from "../utils/constants";
 
 const FeatureViewerComponent = () => {
   const [data, setData] = useState<VariantData[] | []>([]);
   const [isoform, setIsoform] = useState<IsoformType[]>();
   const [isoName, setIsoName] = useState<string>();
   const [features, setFeatures] = useState<FeatsForViewer[]>();
+  const [error, setError] = useState<string | null>(null);
 
   const CONTAINER_ID = "fv1";
   const nx = new Nextprot.Client("Calipho Group", "VEP community tool");
@@ -82,28 +84,33 @@ const FeatureViewerComponent = () => {
     let sequences: IsoformType[];
     let features: FeatureData[];
 
-    Promise.all(getFeaturesByView(featureList, nx, paramEntry!)).then(
-      (rawData) => {
+    Promise.all(getFeaturesByView(featureList, nx, paramEntry!))
+      .then((rawData) => {
+        if (rawData) {
+          sequences = rawData[0];
+          const metadata: MetaData[] = getMetadataByView();
+          const featsForViewer: FeatsForViewer[] = getFeaturesByIsoform(
+            rawData,
+            metadata
+          );
+          features = addFeatures(featsForViewer, sequences[0].isoformAccession);
+          buildFeatures(fv, sequences, sequences[0].isoformAccession, features);
 
-        sequences = rawData[0];
-        const metadata: MetaData[] = getMetadataByView();
-        const featsForViewer: FeatsForViewer[] = getFeaturesByIsoform(
-          rawData,
-          metadata
-        );
-        features = addFeatures(featsForViewer, sequences[0].isoformAccession);
-        buildFeatures(fv, sequences, sequences[0].isoformAccession, features);
-
-        setIsoform(sequences);
-        setFeatures(featsForViewer);
-        setIsoName(sequences[0].isoformAccession);
-      }
-    );
+          setIsoform(sequences);
+          setFeatures(featsForViewer);
+          setIsoName(sequences[0].isoformAccession);
+        } else {
+          setError(ERROR.NOT_FOUND);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
     <div className="viewer-container">
-      {isoform && (
+      {isoform && !error && (
         <Isoform
           isoName={isoName}
           isoform={isoform}

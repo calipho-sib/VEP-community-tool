@@ -116,6 +116,36 @@ export const featureList: FeatureListType[] = [
     },
   },
   {
+    APIRef: "beta-strand",
+    metadata: {
+      name: "Beta strand",
+      className: "betastrand",
+      color: "#B3F0C2",
+      type: "rect",
+      filter: "Secondary structure",
+    },
+  },
+  {
+    APIRef: "helix",
+    metadata: {
+      name: "Helix",
+      className: "helix",
+      color: "#B3F0D1",
+      type: "rect",
+      filter: "Secondary structure",
+    },
+  },
+  {
+    APIRef: "turn",
+    metadata: {
+      name: "Turn",
+      className: "turn",
+      color: "#B3F0E1",
+      type: "rect",
+      filter: "Secondary structure",
+    },
+  },
+  {
     APIRef: "dna-binding-region",
     metadata: {
       name: "DNA binding",
@@ -338,7 +368,7 @@ export const featureList: FeatureListType[] = [
   {
     APIRef: "isoform-mapping",
     metadata: {
-      name: "Isoform"
+      name: "Isoform",
     },
   },
 ];

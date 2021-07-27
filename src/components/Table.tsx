@@ -10,6 +10,7 @@ import { useState, useMemo } from "react";
 
 import { getExportFileBlob } from "../utils/exportFile";
 import { VariantData } from "../utils/types";
+import { TABLE_PAGE_SIZE } from "../utils/constants";
 
 const RESULT_COLUMN_DATA = [
   {
@@ -103,7 +104,7 @@ const Table = (props: TableProps) => {
       data,
       getExportFileBlob,
       //@ts-ignore
-      initialState: { pageIndex: 0, pageSize: 10 },
+      initialState: { pageIndex: 0, pageSize: TABLE_PAGE_SIZE },
     },
     useGlobalFilter,
     usePagination,
@@ -134,9 +135,7 @@ const Table = (props: TableProps) => {
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column: ColumnInstance) => {
                   return (
-                    <th
-                      {...column.getHeaderProps()}
-                    >
+                    <th {...column.getHeaderProps()}>
                       {column.render("Header")}
                     </th>
                   );
