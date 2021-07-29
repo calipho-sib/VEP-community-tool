@@ -11,7 +11,7 @@ import { featureList } from "../featureList";
 export function getFeaturesByView(
   featureList: FeatureListType[],
   nx: any,
-  nxEntry: string
+  nxEntry: string,
 ) {
   let featuresForViewer = [];
 
@@ -32,8 +32,8 @@ export function getFeaturesByView(
             nxEntry,
             "variant",
             "disease-related",
-            true
-          )
+            true,
+          ),
         );
         break;
       case "miscellaneous-region-interactions":
@@ -42,13 +42,13 @@ export function getFeaturesByView(
             nxEntry,
             "miscellaneous-region",
             "interaction-related",
-            true
-          )
+            true,
+          ),
         );
         break;
       default:
         featuresForViewer.push(
-          nx.getAnnotationsByCategory(nxEntry, featureList[feat].APIRef)
+          nx.getAnnotationsByCategory(nxEntry, featureList[feat].APIRef),
         );
         break;
     }
@@ -59,26 +59,16 @@ export function getFeaturesByView(
 export function getFeaturesByIsoform(rawData: any, metaData: MetaData[]) {
   let featuresForViewer = [];
   let featForViewer;
-  let isoLengths = {};
-
-  rawData.forEach((i: any) => {
-    //@ts-ignore
-    isoLengths[i.uniqueName] = i.sequenceLength;
-  });
 
   for (let i = 1; i < rawData.length - 1; i++) {
     let feat = NXUtils.convertMappingsToIsoformMap(
       rawData[i],
       metaData[i].name.replace(".", ""),
       metaData[i].filter,
-      ""
+      "",
     );
 
-    featForViewer = NXViewerUtils.convertNXAnnotations(
-      feat,
-      metaData[i],
-      isoLengths
-    );
+    featForViewer = NXViewerUtils.convertNXAnnotations(feat, metaData[i], {});
     featuresForViewer.push(featForViewer);
   }
   return featuresForViewer;
@@ -86,25 +76,26 @@ export function getFeaturesByIsoform(rawData: any, metaData: MetaData[]) {
 
 export function addFeatures(
   featuresForViewer: FeatsForViewer[],
-  isoName: string
+  isoName: string,
 ) {
   let featureList: FeatureData[] = [];
-  for (let i = 0; i < featuresForViewer.length; i++) {
+
+  featuresForViewer.map((currentFeature) => {
     if (
-      Object.keys(featuresForViewer[i]).length !== 0 &&
-      featuresForViewer[i].hasOwnProperty(isoName)
+      Object.keys(currentFeature).length !== 0 &&
+      Object.prototype.hasOwnProperty.call(currentFeature, isoName)
     ) {
-      featureList.push({ ...featuresForViewer[i][isoName] });
+      featureList.push({ ...currentFeature[isoName] });
     }
-  }
+  });
   return featureList;
 }
 
 export function getMetadataByView() {
   let metaData: MetaData[] = [];
 
-  for (let i = 0; i < featureList.length - 1; i++)
+  featureList.map((_, i) => {
     metaData.push(featureList[i].metadata);
-
+  });
   return metaData;
 }

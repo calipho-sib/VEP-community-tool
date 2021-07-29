@@ -106,3 +106,7 @@ export type FeatureData = MetaData & {
   }[];
   height?: number;
 };
+
+export type TableData = {
+  [key: number]: string | number;
+};

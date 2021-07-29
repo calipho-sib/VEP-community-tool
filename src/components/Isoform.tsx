@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 
 import { IsoformType } from "../utils/types";
@@ -15,7 +14,7 @@ type Option = {
   label: string;
 };
 
-const Isoform = ({ isoName, isoform, handleIsoformChange }: IsoformProps) => {
+const Isoform = ({ isoform, handleIsoformChange }: IsoformProps) => {
   const [options, setOptions] = useState<Option[]>();
   const [selectedOption, setSelectedOption] = useState<Option>();
 

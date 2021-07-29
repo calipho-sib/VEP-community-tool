@@ -1,3 +1,4 @@
+import React from "react";
 import FeatureViewerComponent from "./components/FeatureViewer";
 import nextprotLogo from "./utils/icons/nextprot-logo.png";
 import "./App.css";

@@ -3,19 +3,19 @@ import {
   useAsyncDebounce,
   usePagination,
   useGlobalFilter,
-  ColumnInstance,
 } from "react-table";
 import { useExportData } from "react-table-plugins";
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 
 import { getExportFileBlob } from "../utils/exportFile";
 import { VariantData } from "../utils/types";
+import { TABLE_PAGE_SIZE } from "../utils/constants";
 
 const RESULT_COLUMN_DATA = [
   {
     Header: "S. No.",
     accessor: "id",
-    Cell: (row: any) => {
+    Cell: function rowSerial(row: any) {
       return <div>{Number(row.row.id) + 1}</div>;
     },
   },
@@ -102,12 +102,11 @@ const Table = (props: TableProps) => {
       columns,
       data,
       getExportFileBlob,
-      //@ts-ignore
-      initialState: { pageIndex: 0, pageSize: 10 },
+      initialState: { pageIndex: 0, pageSize: TABLE_PAGE_SIZE },
     },
     useGlobalFilter,
     usePagination,
-    useExportData
+    useExportData,
   );
 
   return (
@@ -129,14 +128,15 @@ const Table = (props: TableProps) => {
       </div>
       <table {...getTableProps()} className="variant-data-table">
         <thead>
-          {headerGroups.map((headerGroup: any) => {
+          {headerGroups.map((headerGroup, i) => {
             return (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column: ColumnInstance) => {
+              <tr
+                {...headerGroup.getHeaderGroupProps()}
+                key={headerGroup.headers[i].id}
+              >
+                {headerGroup.headers.map((column) => {
                   return (
-                    <th
-                      {...column.getHeaderProps()}
-                    >
+                    <th {...column.getHeaderProps()} key={column.id}>
                       {column.render("Header")}
                     </th>
                   );
@@ -146,13 +146,15 @@ const Table = (props: TableProps) => {
           })}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map((row: any) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell: any) => {
+              <tr {...row.getRowProps()} key={row.original.position}>
+                {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()} key={cell.value}>
+                      {cell.render("Cell")}
+                    </td>
                   );
                 })}
               </tr>
@@ -204,7 +206,7 @@ const Table = (props: TableProps) => {
           </span>{" "}
           <select
             value={pageSize}
-            onChange={(e) => {
+            onBlur={(e) => {
               setPageSize(Number(e.target.value));
             }}
           >
