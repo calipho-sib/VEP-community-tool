@@ -17,6 +17,7 @@ import {
   MetaData,
   VariantData,
 } from "../utils/types";
+import Loader from "./Loader";
 import { ERROR } from "../utils/constants";
 
 const FeatureViewerComponent = () => {
@@ -25,6 +26,7 @@ const FeatureViewerComponent = () => {
   const [isoName, setIsoName] = useState<string>();
   const [features, setFeatures] = useState<FeatsForViewer[]>();
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const CONTAINER_ID = "fv1";
   const nx = new Nextprot.Client("Calipho Group", "VEP community tool");
@@ -52,7 +54,7 @@ const FeatureViewerComponent = () => {
           fv.addFeature(feat);
         });
 
-        fv.onVariantAdded((d: CustomEvent) => {
+        fv.onVariantChanged((d: CustomEvent) => {
           setData([...d.detail]);
         });
 
@@ -99,6 +101,7 @@ const FeatureViewerComponent = () => {
           setIsoform(sequences);
           setFeatures(featsForViewer);
           setIsoName(sequences[0].isoformAccession);
+          setLoading(false);
         } else {
           setError(ERROR.NOT_FOUND);
         }
@@ -109,17 +112,20 @@ const FeatureViewerComponent = () => {
   }, []);
 
   return (
-    <div className="viewer-container">
-      {isoform && !error && (
-        <Isoform
-          isoName={isoName}
-          isoform={isoform}
-          handleIsoformChange={handleIsoformChange}
-        />
-      )}
-      <div id="fv1" />
-      <Table data={data} />
-    </div>
+    <>
+      {loading && <Loader />}
+      <div className="viewer-container">
+        {isoform && !error && (
+          <Isoform
+            isoName={isoName}
+            isoform={isoform}
+            handleIsoformChange={handleIsoformChange}
+          />
+        )}
+        <div id="fv1" />
+        <Table data={data} />
+      </div>
+    </>
   );
 };
 
