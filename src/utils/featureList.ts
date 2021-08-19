@@ -5,6 +5,36 @@ export const featureList: FeatureListType[] = [
     APIRef: "sequence",
     metadata: { name: "Sequence" },
   },
+    {
+    APIRef: "beta-strand",
+    metadata: {
+      name: "Beta strand",
+      className: "betastrand",
+      color: "#B3F0C2",
+      type: "rect",
+      filter: "Secondary structure",
+    },
+  },
+  {
+    APIRef: "helix",
+    metadata: {
+      name: "Helix",
+      className: "helix",
+      color: "#B3F0D1",
+      type: "rect",
+      filter: "Secondary structure",
+    },
+  },
+  {
+    APIRef: "turn",
+    metadata: {
+      name: "Turn",
+      className: "turn",
+      color: "#B3F0E1",
+      type: "rect",
+      filter: "Secondary structure",
+    },
+  },
   {
     APIRef: "signal-peptide",
     metadata: {
@@ -66,21 +96,21 @@ export const featureList: FeatureListType[] = [
     },
   },
   {
-    APIRef: "miscellaneous-region",
-    metadata: {
-      name: "Region",
-      className: "miscregion",
-      color: "#B3C2B3",
-      type: "rect",
-      filter: "Region",
-    },
-  },
-  {
     APIRef: "domain",
     metadata: {
       name: "Domain",
       className: "domain",
       color: "#B3C2C2",
+      type: "rect",
+      filter: "Region",
+    },
+  },  
+  {
+    APIRef: "miscellaneous-region",
+    metadata: {
+      name: "Region",
+      className: "miscregion",
+      color: "#B3C2B3",
       type: "rect",
       filter: "Region",
     },
@@ -113,36 +143,6 @@ export const featureList: FeatureListType[] = [
       color: "#B3C2E1",
       type: "rect",
       filter: "Region",
-    },
-  },
-  {
-    APIRef: "beta-strand",
-    metadata: {
-      name: "Beta strand",
-      className: "betastrand",
-      color: "#B3F0C2",
-      type: "rect",
-      filter: "Secondary structure",
-    },
-  },
-  {
-    APIRef: "helix",
-    metadata: {
-      name: "Helix",
-      className: "helix",
-      color: "#B3F0D1",
-      type: "rect",
-      filter: "Secondary structure",
-    },
-  },
-  {
-    APIRef: "turn",
-    metadata: {
-      name: "Turn",
-      className: "turn",
-      color: "#B3F0E1",
-      type: "rect",
-      filter: "Secondary structure",
     },
   },
   {
@@ -196,6 +196,26 @@ export const featureList: FeatureListType[] = [
     },
   },
   {
+    APIRef: "interacting-region",
+    metadata: {
+      name: "Interacting region",
+      className: "intReg",
+      color: "#B3D1F0",
+      type: "rect",
+      filter: "Region",
+    },
+  },
+  {
+    APIRef: "interaction-mapping",
+    metadata: {
+      name: "",
+      className: "",
+      color: "",
+      type: "",
+      filter: "",
+    },
+  },
+  {
     APIRef: "topological-domain",
     metadata: {
       name: "Topological domain",
@@ -236,16 +256,6 @@ export const featureList: FeatureListType[] = [
     },
   },
   {
-    APIRef: "interacting-region",
-    metadata: {
-      name: "Interacting region",
-      className: "intReg",
-      color: "#B3D1F0",
-      type: "rect",
-      filter: "Region",
-    },
-  },
-  {
     APIRef: "modified-residue",
     metadata: {
       name: "Modified residue",
@@ -276,13 +286,13 @@ export const featureList: FeatureListType[] = [
     },
   },
   {
-    APIRef: "miscellaneous-site",
+    APIRef: "lipidation-site",
     metadata: {
-      name: "Site",
-      className: "site",
-      color: "#B3F0E1",
+      name: "Lipidation",
+      className: "lipidation",
+      color: "#A3B5DB",
       type: "unique",
-      filter: "Site",
+      filter: "Modified Residue",
     },
   },
   {
@@ -293,6 +303,16 @@ export const featureList: FeatureListType[] = [
       color: "#859DE7",
       type: "unique",
       filter: "Modified Residue",
+    },
+  },
+  {
+    APIRef: "miscellaneous-site",
+    metadata: {
+      name: "Site",
+      className: "site",
+      color: "#B3F0E1",
+      type: "unique",
+      filter: "Site",
     },
   },
   {
@@ -336,16 +356,6 @@ export const featureList: FeatureListType[] = [
     },
   },
   {
-    APIRef: "lipidation-site",
-    metadata: {
-      name: "Lipidation",
-      className: "lipidation",
-      color: "#A3B5DB",
-      type: "unique",
-      filter: "Modified Residue",
-    },
-  },
-  {
     APIRef: "variant",
     metadata: {
       name: "Variant",
@@ -363,6 +373,26 @@ export const featureList: FeatureListType[] = [
       color: "#73FFE3",
       type: "unique",
       filter: "Variant",
+    },
+  },
+  {
+    APIRef: "sequence-conflict",
+    metadata: {
+      name: "",
+      className: "",
+      color: "",
+      type: "",
+      filter: "",
+    },
+  },
+  {
+    APIRef: "peptide-mapping",
+    metadata: {
+      name: "",
+      className: "",
+      color: "",
+      type: "",
+      filter: "",
     },
   },
   {
