@@ -1,23 +1,28 @@
 {
   "files": {
-    "main.css": "/VEP-community-tool/static/css/main.521d6e27.chunk.css",
-    "main.js": "/VEP-community-tool/static/js/main.f629da9f.chunk.js",
-    "main.js.map": "/VEP-community-tool/static/js/main.f629da9f.chunk.js.map",
-    "runtime-main.js": "/VEP-community-tool/static/js/runtime-main.fefbadb2.js",
-    "runtime-main.js.map": "/VEP-community-tool/static/js/runtime-main.fefbadb2.js.map",
-    "static/js/2.a3982b70.chunk.js": "/VEP-community-tool/static/js/2.a3982b70.chunk.js",
-    "static/js/2.a3982b70.chunk.js.map": "/VEP-community-tool/static/js/2.a3982b70.chunk.js.map",
-    "static/js/3.dc436a1c.chunk.js": "/VEP-community-tool/static/js/3.dc436a1c.chunk.js",
-    "static/js/3.dc436a1c.chunk.js.map": "/VEP-community-tool/static/js/3.dc436a1c.chunk.js.map",
+    "main.css": "/VEP-community-tool/static/css/main.4c63a78d.chunk.css",
+    "main.js": "/VEP-community-tool/static/js/main.9031b28f.chunk.js",
+    "main.js.map": "/VEP-community-tool/static/js/main.9031b28f.chunk.js.map",
+    "runtime-main.js": "/VEP-community-tool/static/js/runtime-main.19f6fa8e.js",
+    "runtime-main.js.map": "/VEP-community-tool/static/js/runtime-main.19f6fa8e.js.map",
+    "static/js/2.6a0b4ef9.chunk.js": "/VEP-community-tool/static/js/2.6a0b4ef9.chunk.js",
+    "static/js/2.6a0b4ef9.chunk.js.map": "/VEP-community-tool/static/js/2.6a0b4ef9.chunk.js.map",
+    "static/js/3.d21500f0.chunk.js": "/VEP-community-tool/static/js/3.d21500f0.chunk.js",
+    "static/js/3.d21500f0.chunk.js.map": "/VEP-community-tool/static/js/3.d21500f0.chunk.js.map",
     "index.html": "/VEP-community-tool/index.html",
-    "static/css/main.521d6e27.chunk.css.map": "/VEP-community-tool/static/css/main.521d6e27.chunk.css.map",
-    "static/js/2.a3982b70.chunk.js.LICENSE.txt": "/VEP-community-tool/static/js/2.a3982b70.chunk.js.LICENSE.txt",
-    "static/media/nextprot-logo.d0c0c045.png": "/VEP-community-tool/static/media/nextprot-logo.d0c0c045.png"
+    "static/css/main.4c63a78d.chunk.css.map": "/VEP-community-tool/static/css/main.4c63a78d.chunk.css.map",
+    "static/js/2.6a0b4ef9.chunk.js.LICENSE.txt": "/VEP-community-tool/static/js/2.6a0b4ef9.chunk.js.LICENSE.txt",
+    "static/media/down_arrow_icon.4f1d5ef1.svg": "/VEP-community-tool/static/media/down_arrow_icon.4f1d5ef1.svg",
+    "static/media/info_icon.09c4a3bc.svg": "/VEP-community-tool/static/media/info_icon.09c4a3bc.svg",
+    "static/media/loader.678869c4.svg": "/VEP-community-tool/static/media/loader.678869c4.svg",
+    "static/media/nextprot-logo.d0c0c045.png": "/VEP-community-tool/static/media/nextprot-logo.d0c0c045.png",
+    "static/media/sort_icon.86d67f70.svg": "/VEP-community-tool/static/media/sort_icon.86d67f70.svg",
+    "static/media/up_arrow_icon.6ff07499.svg": "/VEP-community-tool/static/media/up_arrow_icon.6ff07499.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.fefbadb2.js",
-    "static/js/2.a3982b70.chunk.js",
-    "static/css/main.521d6e27.chunk.css",
-    "static/js/main.f629da9f.chunk.js"
+    "static/js/runtime-main.19f6fa8e.js",
+    "static/js/2.6a0b4ef9.chunk.js",
+    "static/css/main.4c63a78d.chunk.css",
+    "static/js/main.9031b28f.chunk.js"
   ]
 }
