@@ -1,9 +1,7 @@
 import axios from "axios";
 import { IsoformMapping, PredictionData, VariantData } from "./types";
 
-// const baseURL = process.env.REACT_APP_API_BASE_URL;
-
-const baseURL = "/vep-api";
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
 export async function getPredictions(data: PredictionData) {
   let res: VariantData[];
