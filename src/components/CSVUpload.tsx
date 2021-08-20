@@ -1,0 +1,48 @@
+import React, { useState } from "react";
+import CSVReader from "react-csv-reader";
+import { VariantData } from "../utils/types";
+
+type Props = {
+  callGetPredictions: (data: VariantData[]) => void;
+};
+
+type FileInfo = {
+  name: string;
+  size: number;
+  type: string;
+};
+
+const papaparseOptions = {
+  header: true,
+  dynamicTyping: true,
+  skipEmptyLines: true,
+  transformHeader: (header: string) => {
+    return header.replace(/\W/g, "-");
+  },
+};
+
+const CSVUpload = ({ callGetPredictions }: Props) => {
+  const [fileName, setFileName] = useState("");
+
+  const handleForce = (data: VariantData[], fileInfo: FileInfo) => {
+    callGetPredictions(data);
+    setFileName(fileInfo.name);
+  };
+
+  return (
+    <div className="csv-button-container">
+      <div className="csv-button">
+        <button className="export-btn">Upload CSV</button>
+        {fileName && <p>{fileName}</p>}
+      </div>
+      <CSVReader
+        cssClass="csv-reader-input"
+        onFileLoaded={handleForce}
+        parserOptions={papaparseOptions}
+        cssInputClass="csv-input"
+      />
+    </div>
+  );
+};
+
+export default CSVUpload;

@@ -5,7 +5,7 @@ export const featureList: FeatureListType[] = [
     APIRef: "sequence",
     metadata: { name: "Sequence" },
   },
-    {
+  {
     APIRef: "beta-strand",
     metadata: {
       name: "Beta strand",
@@ -104,7 +104,7 @@ export const featureList: FeatureListType[] = [
       type: "rect",
       filter: "Region",
     },
-  },  
+  },
   {
     APIRef: "miscellaneous-region",
     metadata: {
@@ -208,11 +208,11 @@ export const featureList: FeatureListType[] = [
   {
     APIRef: "interaction-mapping",
     metadata: {
-      name: "",
-      className: "",
-      color: "",
-      type: "",
-      filter: "",
+      name: "Exp. interaction",
+      className: "intregion",
+      color: "#B3E1D1",
+      type: "rect",
+      filter: "Region",
     },
   },
   {
@@ -378,21 +378,22 @@ export const featureList: FeatureListType[] = [
   {
     APIRef: "sequence-conflict",
     metadata: {
-      name: "",
-      className: "",
-      color: "",
-      type: "",
-      filter: "",
+      name: "Conflict",
+      className: "seqconflict",
+      color: "#6FFFFF",
+      type: "unique",
+      filter: "Conflict",
     },
   },
   {
     APIRef: "peptide-mapping",
     metadata: {
-      name: "",
-      className: "",
-      color: "",
-      type: "",
-      filter: "",
+      name: "Peptide",
+      className: "pep",
+      color: "#B3E1D1",
+      type: "rect",
+      filter: "Peptide",
+      height: 8,
     },
   },
   {

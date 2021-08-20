@@ -13,16 +13,20 @@ import Isoform from "./Isoform";
 import {
   FeatsForViewer,
   FeatureData,
+  IsoformMapping,
   IsoformType,
   MetaData,
   VariantData,
 } from "../utils/types";
 import Loader from "./Loader";
 import { ERROR } from "../utils/constants";
+import { getIsoformList, getPredictions } from "../utils/service";
+import log from "../utils/helpers/logger";
 
 const FeatureViewerComponent = () => {
   const [data, setData] = useState<VariantData[] | []>([]);
-  const [isoform, setIsoform] = useState<IsoformType[]>();
+  const [isoform, setIsoform] = useState<IsoformMapping[]>();
+  const [sequence, setSequence] = useState<IsoformType[]>();
   const [isoName, setIsoName] = useState<string>();
   const [features, setFeatures] = useState<FeatsForViewer[]>();
   const [error, setError] = useState<string | null>(null);
@@ -59,14 +63,14 @@ const FeatureViewerComponent = () => {
         });
 
         fv.onGetPredictions((d: CustomEvent) => {
-          const variantValues = d.detail;
+          let data = {
+            isoform: isoName,
+            variants: d.detail,
+          };
 
-          variantValues.map((v: VariantData) => {
-            v.sift = Math.random().toFixed(2);
-            v.polyphen = Math.random().toFixed(2);
+          getPredictions(data).then((res) => {
+            setData(res);
           });
-
-          setData(variantValues);
         });
       }
     });
@@ -76,12 +80,16 @@ const FeatureViewerComponent = () => {
     setIsoName(value);
     document.getElementById(CONTAINER_ID)!.innerHTML = "";
     const featureList: FeatureData[] = addFeatures(features!, value);
-    buildFeatures(fv, isoform!, value, featureList);
+    buildFeatures(fv, sequence!, value, featureList);
   }
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const paramEntry: string | null = params.get("entry");
+
+    getIsoformList(paramEntry!).then((res) => {
+      setIsoform(res);
+    });
 
     let sequences: IsoformType[];
     let features: FeatureData[];
@@ -98,7 +106,7 @@ const FeatureViewerComponent = () => {
           features = addFeatures(featsForViewer, sequences[0].isoformAccession);
           buildFeatures(fv, sequences, sequences[0].isoformAccession, features);
 
-          setIsoform(sequences);
+          setSequence(sequences);
           setFeatures(featsForViewer);
           setIsoName(sequences[0].isoformAccession);
           setLoading(false);
@@ -107,7 +115,7 @@ const FeatureViewerComponent = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        log(err);
       });
   }, []);
 
@@ -123,7 +131,7 @@ const FeatureViewerComponent = () => {
           />
         )}
         <div id="fv1" />
-        <Table data={data} />
+        <Table data={data} setData={setData} isoName={isoName} />
       </div>
     </>
   );

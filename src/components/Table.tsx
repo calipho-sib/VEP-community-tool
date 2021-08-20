@@ -1,15 +1,20 @@
 import {
   useTable,
   useAsyncDebounce,
+  useSortBy,
   usePagination,
   useGlobalFilter,
 } from "react-table";
 import { useExportData } from "react-table-plugins";
 import React, { useState, useMemo } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-import { getExportFileBlob } from "../utils/exportFile";
+import { getExportFileBlob } from "../utils/helpers/exportFile";
 import { VariantData } from "../utils/types";
 import { TABLE_PAGE_SIZE } from "../utils/constants";
+import CSVUpload from "./CSVUpload";
+import * as Icon from "../utils/icons/index";
+import { getPredictions } from "../utils/service";
 
 const RESULT_COLUMN_DATA = [
   {
@@ -21,38 +26,33 @@ const RESULT_COLUMN_DATA = [
   },
   {
     Header: "Position",
-    accessor: "position",
+    accessor: "nextprotPosition",
   },
   {
     Header: "Original",
-    accessor: "original",
+    accessor: "originalAminoAcid",
   },
   {
     Header: "Variant",
-    accessor: "variant",
+    accessor: "variantAminoAcid",
   },
   {
-    Header: "sift",
+    Header: "Sift",
     accessor: "sift",
   },
   {
-    Header: "polyphen",
+    Header: "Polyphen",
     accessor: "polyphen",
   },
 ];
 
 type TableProps = {
   data: VariantData[];
+  setData: (data: VariantData[]) => void;
+  isoName: string | undefined;
 };
 
-function GlobalFilter({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}: any) {
-  const count =
-    preGlobalFilteredRows.length > 0 ? preGlobalFilteredRows.length : 0;
-
+function GlobalFilter({ globalFilter, setGlobalFilter }: any) {
   const [value, setValue] = useState(globalFilter);
 
   const onChange = useAsyncDebounce((value) => {
@@ -67,15 +67,29 @@ function GlobalFilter({
         setValue(e.target.value);
         onChange(e.target.value);
       }}
-      placeholder={`Search ${count} records...`}
+      placeholder={`Search...`}
     />
   );
 }
 
 const Table = (props: TableProps) => {
-  const { data } = props;
+  const { data, setData, isoName } = props;
+
+  const callGetPredictions = async (csvData: VariantData[]) => {
+    const data = {
+      isoform: isoName,
+      variants: csvData,
+    };
+    await getPredictions(data).then((res) => {
+      setData(res);
+    });
+  };
 
   const columns = useMemo(() => RESULT_COLUMN_DATA, []);
+
+  const getExportFileName = () => {
+    return isoName;
+  };
 
   const {
     getTableProps,
@@ -102,42 +116,70 @@ const Table = (props: TableProps) => {
       columns,
       data,
       getExportFileBlob,
+      getExportFileName,
       initialState: { pageIndex: 0, pageSize: TABLE_PAGE_SIZE },
     },
     useGlobalFilter,
-    usePagination,
+    useSortBy,
     useExportData,
+    usePagination,
   );
 
   return (
     <div className="variant-table-container">
-      <div className="table-header">
-        <GlobalFilter
-          preGlobalFilteredRows={preGlobalFilteredRows}
-          globalFilter={state.globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
-        <button
-          className="export-btn"
-          onClick={() => {
-            exportData("csv", true);
-          }}
-        >
-          Export All as CSV
-        </button>
+      <div className="table-header" style={{ display: "flex" }}>
+        <CSVUpload callGetPredictions={callGetPredictions} />
+        <div style={{ marginLeft: "auto" }}>
+          <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+          <button
+            className="export-btn"
+            onClick={() => {
+              exportData("csv", true);
+            }}
+          >
+            Export All as CSV
+          </button>
+        </div>
       </div>
       <table {...getTableProps()} className="variant-data-table">
         <thead>
-          {headerGroups.map((headerGroup, i) => {
+          {headerGroups.map((headerGroup) => {
             return (
-              <tr
-                {...headerGroup.getHeaderGroupProps()}
-                key={headerGroup.headers[i].id}
-              >
+              <tr {...headerGroup.getHeaderGroupProps()} key={uuidv4()}>
                 {headerGroup.headers.map((column) => {
                   return (
-                    <th {...column.getHeaderProps()} key={column.id}>
+                    <th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      key={uuidv4()}
+                    >
                       {column.render("Header")}
+                      <span>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <img
+                              src={Icon.DownArrow}
+                              className="icon"
+                              alt="Down arrow icon"
+                            />
+                          ) : (
+                            <img
+                              src={Icon.UpArrow}
+                              className="icon"
+                              alt="Down arrow icon"
+                            />
+                          )
+                        ) : (
+                          <img
+                            src={Icon.Sort}
+                            className="icon"
+                            alt="Down arrow icon"
+                          />
+                        )}
+                      </span>
                     </th>
                   );
                 })}
@@ -149,10 +191,10 @@ const Table = (props: TableProps) => {
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} key={row.original.position}>
+              <tr {...row.getRowProps()} key={uuidv4()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()} key={cell.value}>
+                    <td {...cell.getCellProps()} key={uuidv4()}>
                       {cell.render("Cell")}
                     </td>
                   );

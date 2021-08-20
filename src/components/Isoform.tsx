@@ -1,17 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactElement } from "react";
 import Select from "react-select";
 
-import { IsoformType } from "../utils/types";
+import * as Icon from "../utils/icons/index";
+import { IsoformMapping } from "../utils/types";
 
 type IsoformProps = {
   isoName?: string;
-  isoform: IsoformType[];
+  isoform: IsoformMapping[];
   handleIsoformChange: (value: string) => void;
 };
 
 type Option = {
   value: string;
-  label: string;
+  label: string | ReactElement;
+  disabled: boolean;
+};
+
+type Label = {
+  offset: number;
+  isoform: string;
+};
+
+const LabelComponent = (props: Label) => {
+  const { offset, isoform } = props;
+  return (
+    <>
+      {offset < 0 ? (
+        <div className="isoform-info">
+          {isoform}
+          <img
+            title="Isoform mapping not available"
+            src={Icon.Info}
+            className="icon"
+            alt="Info Icon"
+          />
+        </div>
+      ) : (
+        isoform
+      )}
+    </>
+  );
 };
 
 const Isoform = ({ isoform, handleIsoformChange }: IsoformProps) => {
@@ -20,10 +48,11 @@ const Isoform = ({ isoform, handleIsoformChange }: IsoformProps) => {
 
   useEffect(() => {
     let optionMap: Option[] = [];
-    isoform.map((iso: IsoformType) => {
-      const option = {
-        value: iso.isoformAccession,
-        label: iso.isoformAccession,
+    isoform.map((iso: IsoformMapping) => {
+      let option: Option = {
+        value: iso.isoform,
+        label: <LabelComponent isoform={iso.isoform} offset={iso.offset} />,
+        disabled: iso.offset < 0 ? true : false,
       };
       optionMap.push(option);
     });
@@ -42,6 +71,7 @@ const Isoform = ({ isoform, handleIsoformChange }: IsoformProps) => {
         className="isoform-select"
         options={options}
         value={selectedOption}
+        isOptionDisabled={(option: Option) => option.disabled}
         defaultValue={selectedOption}
         onChange={(option) => {
           handleIsoformChange(option!.value);

@@ -9,6 +9,7 @@ export type MetaData = {
   color?: string;
   type?: string;
   filter?: string;
+  height?: number;
 };
 
 export type IsoformType = {
@@ -88,11 +89,15 @@ export type FeatsForViewer = {
 };
 
 export type VariantData = {
-  position: string;
-  original: string;
-  variant: string;
-  sift: string;
-  polyphen: string;
+  id?: number;
+  nextprotPosition: number;
+  originalAminoAcid: string;
+  variantAminoAcid: string;
+  sift?: number;
+  siftPrediction?: string;
+  polyphen?: number;
+  polyphenPrediction?: string;
+  enspPosition?: number;
 };
 
 export type FeatureData = MetaData & {
@@ -109,4 +114,15 @@ export type FeatureData = MetaData & {
 
 export type TableData = {
   [key: number]: string | number;
+};
+
+export type IsoformMapping = {
+  ensp: string;
+  isoform: string;
+  offset: number;
+};
+
+export type PredictionData = {
+  isoform: string | undefined;
+  variants: VariantData[];
 };
