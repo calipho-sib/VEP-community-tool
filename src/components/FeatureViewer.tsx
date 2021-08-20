@@ -21,6 +21,7 @@ import {
 import Loader from "./Loader";
 import { ERROR } from "../utils/constants";
 import { getIsoformList, getPredictions } from "../utils/service";
+import log from "../utils/helpers/logger";
 
 const FeatureViewerComponent = () => {
   const [data, setData] = useState<VariantData[] | []>([]);
@@ -114,7 +115,7 @@ const FeatureViewerComponent = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        log(err);
       });
   }, []);
 

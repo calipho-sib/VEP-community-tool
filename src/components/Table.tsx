@@ -9,7 +9,7 @@ import { useExportData } from "react-table-plugins";
 import React, { useState, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { getExportFileBlob } from "../utils/exportFile";
+import { getExportFileBlob } from "../utils/helpers/exportFile";
 import { VariantData } from "../utils/types";
 import { TABLE_PAGE_SIZE } from "../utils/constants";
 import CSVUpload from "./CSVUpload";

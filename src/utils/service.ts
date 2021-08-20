@@ -1,4 +1,5 @@
 import axios from "axios";
+import log from "./helpers/logger";
 import { IsoformMapping, PredictionData, VariantData } from "./types";
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
@@ -11,7 +12,7 @@ export async function getPredictions(data: PredictionData) {
       return res.data;
     })
     .catch((err) => {
-      console.error(err);
+      log(err);
     });
 
   return res;
@@ -25,7 +26,7 @@ export async function getIsoformList(entry: string) {
       return res.data;
     })
     .catch((err) => {
-      console.error(err);
+      log(err);
     });
 
   return res;
