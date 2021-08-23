@@ -121,7 +121,7 @@ const FeatureViewerComponent = () => {
 
   return (
     <>
-      {loading && <Loader />}
+      {loading && <Loader id="feature-loader" />}
       <div className="viewer-container">
         {isoform && !error && (
           <Isoform

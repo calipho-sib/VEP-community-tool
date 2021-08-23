@@ -15,6 +15,7 @@ import { TABLE_PAGE_SIZE } from "../utils/constants";
 import CSVUpload from "./CSVUpload";
 import * as Icon from "../utils/icons/index";
 import { getPredictions } from "../utils/service";
+import Loader from "./Loader";
 
 const RESULT_COLUMN_DATA = [
   {
@@ -75,13 +76,17 @@ function GlobalFilter({ globalFilter, setGlobalFilter }: any) {
 const Table = (props: TableProps) => {
   const { data, setData, isoName } = props;
 
+  const [loading, setLoading] = useState(false);
+
   const callGetPredictions = async (csvData: VariantData[]) => {
     const data = {
       isoform: isoName,
       variants: csvData,
     };
+    setLoading(true);
     await getPredictions(data).then((res) => {
       setData(res);
+      setLoading(false);
     });
   };
 
@@ -127,7 +132,7 @@ const Table = (props: TableProps) => {
 
   return (
     <div className="variant-table-container">
-      <div className="table-header" style={{ display: "flex" }}>
+      <div className="table-header">
         <CSVUpload callGetPredictions={callGetPredictions} />
         <div style={{ marginLeft: "auto" }}>
           <GlobalFilter
@@ -204,7 +209,15 @@ const Table = (props: TableProps) => {
           })}
         </tbody>
       </table>
-      {data.length === 0 ? (
+      {loading && (
+        <>
+          <p className="table-text">
+            <i>Fetching predictions...</i>
+          </p>
+          <Loader />
+        </>
+      )}
+      {data.length === 0 && !loading ? (
         <p className="table-text">
           <i>
             No records added. Add variants and click on get predictions to get
@@ -248,7 +261,7 @@ const Table = (props: TableProps) => {
           </span>{" "}
           <select
             value={pageSize}
-            onBlur={(e) => {
+            onChange={(e) => {
               setPageSize(Number(e.target.value));
             }}
           >
