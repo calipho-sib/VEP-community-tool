@@ -48,6 +48,8 @@ const RESULT_COLUMN_DATA = [
 ];
 
 type TableProps = {
+  predictionLoading: boolean;
+  setPredictionLoading: (predictionLoading: boolean) => void;
   data: VariantData[];
   setData: (data: VariantData[]) => void;
   isoName: string | undefined;
@@ -74,19 +76,18 @@ function GlobalFilter({ globalFilter, setGlobalFilter }: any) {
 }
 
 const Table = (props: TableProps) => {
-  const { data, setData, isoName } = props;
-
-  const [loading, setLoading] = useState(false);
+  const { predictionLoading, setPredictionLoading, data, setData, isoName } =
+    props;
 
   const callGetPredictions = async (csvData: VariantData[]) => {
     const data = {
       isoform: isoName,
       variants: csvData,
     };
-    setLoading(true);
+    setPredictionLoading(true);
     await getPredictions(data).then((res) => {
       setData(res);
-      setLoading(false);
+      setPredictionLoading(false);
     });
   };
 
@@ -209,7 +210,7 @@ const Table = (props: TableProps) => {
           })}
         </tbody>
       </table>
-      {loading && (
+      {predictionLoading && (
         <>
           <p className="table-text">
             <i>Fetching predictions...</i>
@@ -217,7 +218,7 @@ const Table = (props: TableProps) => {
           <Loader />
         </>
       )}
-      {data.length === 0 && !loading ? (
+      {data.length === 0 && !predictionLoading ? (
         <p className="table-text">
           <i>
             No records added. Add variants and click on get predictions to get
