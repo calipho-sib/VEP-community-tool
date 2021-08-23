@@ -31,6 +31,7 @@ const FeatureViewerComponent = () => {
   const [features, setFeatures] = useState<FeatsForViewer[]>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [predictionLoading, setPredictionLoading] = useState(false);
 
   const CONTAINER_ID = "fv1";
   const nx = new Nextprot.Client("Calipho Group", "VEP community tool");
@@ -63,6 +64,7 @@ const FeatureViewerComponent = () => {
         });
 
         fv.onGetPredictions((d: CustomEvent) => {
+          setPredictionLoading(true);
           let data = {
             isoform: isoName,
             variants: d.detail,
@@ -70,6 +72,7 @@ const FeatureViewerComponent = () => {
 
           getPredictions(data).then((res) => {
             setData(res);
+            setPredictionLoading(false);
           });
         });
       }
@@ -121,7 +124,7 @@ const FeatureViewerComponent = () => {
 
   return (
     <>
-      {loading && <Loader />}
+      {loading && <Loader id="feature-loader" />}
       <div className="viewer-container">
         {isoform && !error && (
           <Isoform
@@ -131,7 +134,13 @@ const FeatureViewerComponent = () => {
           />
         )}
         <div id="fv1" />
-        <Table data={data} setData={setData} isoName={isoName} />
+        <Table
+          predictionLoading={predictionLoading}
+          setPredictionLoading={setPredictionLoading}
+          data={data}
+          setData={setData}
+          isoName={isoName}
+        />
       </div>
     </>
   );
