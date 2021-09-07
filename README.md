@@ -2,7 +2,7 @@
 
 This is the code repository for VEP Community Tool that is used to visualise Ensembl Variant Effect Predictor(VEP) data using neXtProt tools. The components use the [React](https://reactjs.org) web application framework, written in TypeScript.
 
-## View the Live Community Tool or Run Locally
+## View the [Community Tool Live](https://calipho-sib.github.io/VEP-community-tool/?nxentry=NX_P06213) or Run Locally
 
 ### Run Locally
 
