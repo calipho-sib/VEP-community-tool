@@ -21,6 +21,17 @@ yarn
 yarn run start
 ```
 
+### Build and Deploy
+
+1. Build the latest changes.
+```sh
+yarn build
+```
+
+2. Deploy on GitHub pages.
+```sh
+yarn deploy
+```
 ## Contributing
 
 The VEP Community Tool is being developed as open source. All the software packages are being actively maintained on GitHub and we encourage organizations and individuals to contribute requirements, documentation, issues, new templates, and code.
