@@ -88,7 +88,7 @@ const FeatureViewerComponent = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const paramEntry: string | null = params.get("entry");
+    const paramEntry: string | null = params.get("nxentry");
 
     getIsoformList(paramEntry!).then((res) => {
       setIsoform(res);
