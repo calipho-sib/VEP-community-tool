@@ -29,13 +29,13 @@ const FeatureViewerComponent = () => {
   const [sequence, setSequence] = useState<IsoformType[]>();
   const [isoName, setIsoName] = useState<string>();
   const [features, setFeatures] = useState<FeatsForViewer[]>();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | undefined>();
   const [loading, setLoading] = useState(true);
   const [predictionLoading, setPredictionLoading] = useState(false);
+  const [fv, setFv] = useState<any>();
 
   const CONTAINER_ID = "fv1";
   const nx = new Nextprot.Client("Calipho Group", "VEP community tool");
-  let fv: any;
 
   function buildFeatures(
     fv: any,
@@ -45,25 +45,27 @@ const FeatureViewerComponent = () => {
   ) {
     sequences.forEach(function (seq: IsoformType) {
       if (seq.uniqueName === isoName) {
-        fv = new createFeature(seq.sequence, "#fv1", {
+        let featureViewer = new createFeature(seq.sequence, "#fv1", {
           showAxis: true,
           showSequence: true,
           brushActive: true,
           toolbar: true,
-          bubbleHelp: true,
+          bubbleHelp: false,
           zoomMax: 10,
           variant: true,
         });
 
+        setFv(featureViewer);
+
         features.map((feat: FeatureData) => {
-          fv.addFeature(feat);
+          featureViewer.addFeature(feat);
         });
 
-        fv.onVariantChanged((d: CustomEvent) => {
+        featureViewer.onVariantChanged((d: CustomEvent) => {
           setData([...d.detail]);
         });
 
-        fv.onGetPredictions((d: CustomEvent) => {
+        featureViewer.onGetPredictions((d: CustomEvent) => {
           setPredictionLoading(true);
           let data = {
             isoform: isoName,
@@ -71,7 +73,16 @@ const FeatureViewerComponent = () => {
           };
 
           getPredictions(data).then((res) => {
-            setData(res);
+            if (res) {
+              if (res.length < data.variants.length)
+                setError(ERROR.PARTIAL_RESULTS);
+              else setError("");
+
+              setData(res);
+              setPredictionLoading(false);
+              return;
+            }
+            setError(ERROR.NO_RESULTS);
             setPredictionLoading(false);
           });
         });
@@ -139,7 +150,10 @@ const FeatureViewerComponent = () => {
           setPredictionLoading={setPredictionLoading}
           data={data}
           setData={setData}
+          error={error}
+          setError={setError}
           isoName={isoName}
+          fv={fv}
         />
       </div>
     </>

@@ -1,12 +1,14 @@
 import React from "react";
 import FeatureViewerComponent from "./components/FeatureViewer";
-import nextprotLogo from "./utils/icons/nextprot-logo.png";
 import "./App.css";
+import Instructions from "./components/Instructions";
+import Header from "./components/Header";
 
 const App = () => {
   return (
     <div className="App">
-      <img src={nextprotLogo} className="logo" alt="neXtProt logo" />
+      <Header />
+      <Instructions />
       <FeatureViewerComponent />
     </div>
   );
