@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactElement } from "react";
 import Select from "react-select";
 
-import * as Icon from "../utils/icons/index";
+import * as Icon from "../assets/icons/index";
 import { IsoformMapping } from "../utils/types";
 
 type IsoformProps = {

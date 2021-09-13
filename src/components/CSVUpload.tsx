@@ -32,7 +32,7 @@ const CSVUpload = ({ callGetPredictions }: Props) => {
   return (
     <div className="csv-button-container">
       <div className="csv-button">
-        <button className="export-btn">Upload CSV</button>
+        <button className="btn">Upload CSV and Get Predictions</button>
         {fileName && <p>{fileName}</p>}
       </div>
       <CSVReader

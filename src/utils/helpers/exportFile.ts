@@ -2,12 +2,15 @@ import Papa from "papaparse";
 
 type FileProps = {
   columns: any;
-  data: any;
+  data: Array<Array<[any, number, string, string, number, number]>>;
   fileType: string;
 };
 
 export function getExportFileBlob(props: FileProps) {
-  const { columns, data, fileType } = props;
+  let { columns, data, fileType } = props;
+
+  columns.shift();
+  data = data.map((d) => d.slice(1));
 
   if (fileType === "csv") {
     const headerNames = columns.map((col: any) => col.exportValue);

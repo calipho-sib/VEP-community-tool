@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ReactComponent as LoadingIcon } from "../utils/icons/loader.svg";
+import { ReactComponent as LoadingIcon } from "../assets/icons/loader.svg";
 
 type LoaderProps = {
   id?: string;

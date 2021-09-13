@@ -1,19 +1,18 @@
 import {
   useTable,
-  useAsyncDebounce,
   useSortBy,
   usePagination,
   useGlobalFilter,
 } from "react-table";
 import { useExportData } from "react-table-plugins";
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { getExportFileBlob } from "../utils/helpers/exportFile";
 import { VariantData } from "../utils/types";
-import { TABLE_PAGE_SIZE } from "../utils/constants";
+import { ERROR, TABLE_PAGE_SIZE } from "../utils/constants";
 import CSVUpload from "./CSVUpload";
-import * as Icon from "../utils/icons/index";
+import * as Icon from "../assets/icons/index";
 import { getPredictions } from "../utils/service";
 import Loader from "./Loader";
 
@@ -52,32 +51,23 @@ type TableProps = {
   setPredictionLoading: (predictionLoading: boolean) => void;
   data: VariantData[];
   setData: (data: VariantData[]) => void;
+  error: string | undefined;
+  setError: (error: string) => void;
   isoName: string | undefined;
+  fv: any;
 };
 
-function GlobalFilter({ globalFilter, setGlobalFilter }: any) {
-  const [value, setValue] = useState(globalFilter);
-
-  const onChange = useAsyncDebounce((value) => {
-    setGlobalFilter(value || undefined);
-  }, 200);
-
-  return (
-    <input
-      className="search-input"
-      value={value || ""}
-      onChange={(e) => {
-        setValue(e.target.value);
-        onChange(e.target.value);
-      }}
-      placeholder={`Search...`}
-    />
-  );
-}
-
 const Table = (props: TableProps) => {
-  const { predictionLoading, setPredictionLoading, data, setData, isoName } =
-    props;
+  const {
+    predictionLoading,
+    setPredictionLoading,
+    data,
+    setData,
+    error,
+    setError,
+    isoName,
+    fv,
+  } = props;
 
   const callGetPredictions = async (csvData: VariantData[]) => {
     const data = {
@@ -86,7 +76,15 @@ const Table = (props: TableProps) => {
     };
     setPredictionLoading(true);
     await getPredictions(data).then((res) => {
-      setData(res);
+      if (res) {
+        if (res.length < data.variants.length) setError(ERROR.PARTIAL_RESULTS);
+        else setError("");
+
+        setData(res);
+        setPredictionLoading(false);
+        return;
+      }
+      setError(ERROR.NO_RESULTS);
       setPredictionLoading(false);
     });
   };
@@ -103,15 +101,12 @@ const Table = (props: TableProps) => {
     headerGroups,
     prepareRow,
     page,
-    state,
     canPreviousPage,
     canNextPage,
     pageOptions,
     pageCount,
     gotoPage,
     nextPage,
-    preGlobalFilteredRows,
-    setGlobalFilter,
     previousPage,
     setPageSize,
     state: { pageIndex, pageSize },
@@ -133,16 +128,26 @@ const Table = (props: TableProps) => {
 
   return (
     <div className="variant-table-container">
+      {error && (
+        <div className="error-message">
+          <img src={Icon.Error} alt="Error" />
+          <p>{error}</p>
+        </div>
+      )}
       <div className="table-header">
         <CSVUpload callGetPredictions={callGetPredictions} />
         <div style={{ marginLeft: "auto" }}>
-          <GlobalFilter
-            preGlobalFilteredRows={preGlobalFilteredRows}
-            globalFilter={state.globalFilter}
-            setGlobalFilter={setGlobalFilter}
-          />
           <button
-            className="export-btn"
+            className="btn get-predictions-btn"
+            onClick={() => {
+              let data = fv.getPredictions();
+              callGetPredictions(data);
+            }}
+          >
+            Get Predictions
+          </button>
+          <button
+            className="btn"
             onClick={() => {
               exportData("csv", true);
             }}
