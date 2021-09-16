@@ -1,7 +1,7 @@
 {
   "name": "vep-community-tool",
   "description": "A community tool to visualise VEP data using neXtProt tools",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "homepage": "http://calipho-sib.github.io/VEP-community-tool",
   "authors": [
     "Shrey Sachdeva <shreysachdeva.2000@gmail.com>"
@@ -20,7 +20,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "axios": "^0.21.1",
-    "feature-viewer": "^1.2.0",
+    "feature-viewer": "^1.2.1",
     "match-sorter": "^6.3.0",
     "papaparse": "^5.3.1",
     "react": "^17.0.2",
