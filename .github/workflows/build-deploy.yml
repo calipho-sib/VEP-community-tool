@@ -29,9 +29,6 @@ jobs:
       run: yarn run build
       env:
          CI: false
-    
-    - name: Run tests
-      run: yarn run test
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v2
