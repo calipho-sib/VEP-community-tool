@@ -41,8 +41,16 @@ const RESULT_COLUMN_DATA = [
     accessor: "sift",
   },
   {
+    Header: "Sift Prediction",
+    accessor: "siftPrediction",
+  },
+  {
     Header: "Polyphen",
     accessor: "polyphen",
+  },
+  {
+    Header: "Polyphen Prediction",
+    accessor: "polyphenPrediction",
   },
 ];
 
@@ -68,6 +76,19 @@ const Table = (props: TableProps) => {
     isoName,
     fv,
   } = props;
+
+  const getBackgroundColor = (index: string, cellId: string) => {
+    let value =
+      cellId === "polyphenPrediction"
+        ? data[Number(index)].polyphen
+        : data[Number(index)].sift;
+
+    if (value) {
+      if (value > 0 && value <= 0.25) return "#e56565";
+      else if (value > 0.25 && value <= 0.75) return "#ffba5f";
+      else if (value > 0.75 && value <= 1) return "#85cc64";
+    }
+  };
 
   const callGetPredictions = async (csvData: VariantData[]) => {
     const data = {
@@ -205,7 +226,17 @@ const Table = (props: TableProps) => {
               <tr {...row.getRowProps()} key={uuidv4()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()} key={uuidv4()}>
+                    <td
+                      style={{
+                        backgroundColor:
+                          cell.column.id === "polyphenPrediction" ||
+                          cell.column.id === "siftPrediction"
+                            ? getBackgroundColor(cell.row.id, cell.column.id)
+                            : "#FFF",
+                      }}
+                      {...cell.getCellProps()}
+                      key={uuidv4()}
+                    >
                       {cell.render("Cell")}
                     </td>
                   );

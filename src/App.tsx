@@ -3,6 +3,7 @@ import FeatureViewerComponent from "./components/FeatureViewer";
 import "./App.css";
 import Instructions from "./components/Instructions";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <Header />
       <Instructions />
       <FeatureViewerComponent />
+      <Footer />
     </div>
   );
 };

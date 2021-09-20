@@ -385,17 +385,17 @@ export const featureList: FeatureListType[] = [
       filter: "Conflict",
     },
   },
-  {
-    APIRef: "peptide-mapping",
-    metadata: {
-      name: "Peptide",
-      className: "pep",
-      color: "#B3E1D1",
-      type: "rect",
-      filter: "Peptide",
-      height: 8,
-    },
-  },
+  // {
+  //   APIRef: "peptide-mapping",
+  //   metadata: {
+  //     name: "Peptide",
+  //     className: "pep",
+  //     color: "#B3E1D1",
+  //     type: "rect",
+  //     filter: "Peptide",
+  //     height: 8,
+  //   },
+  // },
   {
     APIRef: "isoform-mapping",
     metadata: {
