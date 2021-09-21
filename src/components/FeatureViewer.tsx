@@ -22,6 +22,7 @@ import Loader from "./Loader";
 import { ERROR } from "../utils/constants";
 import { getIsoformList, getPredictions } from "../utils/service";
 import log from "../utils/helpers/logger";
+import { parseData } from "../utils/helpers/parseData";
 
 const FeatureViewerComponent = () => {
   const [data, setData] = useState<VariantData[] | []>([]);
@@ -78,7 +79,8 @@ const FeatureViewerComponent = () => {
                 setError(ERROR.PARTIAL_RESULTS);
               else setError("");
 
-              setData(res);
+              const { parsedData } = parseData(res);
+              setData(parsedData);
               setPredictionLoading(false);
               return;
             }

@@ -15,15 +15,9 @@ import CSVUpload from "./CSVUpload";
 import * as Icon from "../assets/icons/index";
 import { getPredictions } from "../utils/service";
 import Loader from "./Loader";
+import { parseData } from "../utils/helpers/parseData";
 
 const RESULT_COLUMN_DATA = [
-  {
-    Header: "S. No.",
-    accessor: "id",
-    Cell: function rowSerial(row: any) {
-      return <div>{Number(row.row.id) + 1}</div>;
-    },
-  },
   {
     Header: "Position",
     accessor: "nextprotPosition",
@@ -78,16 +72,27 @@ const Table = (props: TableProps) => {
   } = props;
 
   const getBackgroundColor = (index: string, cellId: string) => {
-    let value =
-      cellId === "polyphenPrediction"
-        ? data[Number(index)].polyphen
-        : data[Number(index)].sift;
+    const idx = Number(index);
+    const value =
+      cellId === "polyphenPrediction" ? data[idx].polyphen! : data[idx].sift!;
 
-    if (value) {
-      if (value > 0 && value <= 0.25) return "#e56565";
-      else if (value > 0.25 && value <= 0.75) return "#ffba5f";
-      else if (value > 0.75 && value <= 1) return "#85cc64";
-    }
+    const polyphenPrediction =
+      cellId === "polyphenPrediction" ? data[idx].polyphenPrediction : null;
+
+    const siftPrediction =
+      cellId === "siftPrediction" ? data[idx].siftPrediction : null;
+
+    if (
+      (value > 0 && value <= 0.25) ||
+      (value === 0 && siftPrediction === "deleterious")
+    )
+      return "#e56565";
+    else if (
+      (value > 0.25 && value <= 0.75) ||
+      (value === 0 && polyphenPrediction === "benign")
+    )
+      return "#ffba5f";
+    else if (value > 0.75 && value <= 1) return "#85cc64";
   };
 
   const callGetPredictions = async (csvData: VariantData[]) => {
@@ -101,7 +106,8 @@ const Table = (props: TableProps) => {
         if (res.length < data.variants.length) setError(ERROR.PARTIAL_RESULTS);
         else setError("");
 
-        setData(res);
+        const { parsedData } = parseData(res);
+        setData(parsedData);
         setPredictionLoading(false);
         return;
       }

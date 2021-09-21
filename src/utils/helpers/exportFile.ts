@@ -9,9 +9,6 @@ type FileProps = {
 export function getExportFileBlob(props: FileProps) {
   let { columns, data, fileType } = props;
 
-  columns.shift();
-  data = data.map((d) => d.slice(1));
-
   if (fileType === "csv") {
     const headerNames = columns.map((col: any) => col.exportValue);
     const csvString = Papa.unparse({ fields: headerNames, data });
