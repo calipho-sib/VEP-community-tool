@@ -15,15 +15,9 @@ import CSVUpload from "./CSVUpload";
 import * as Icon from "../assets/icons/index";
 import { getPredictions } from "../utils/service";
 import Loader from "./Loader";
+import { parseData } from "../utils/helpers/parseData";
 
 const RESULT_COLUMN_DATA = [
-  {
-    Header: "S. No.",
-    accessor: "id",
-    Cell: function rowSerial(row: any) {
-      return <div>{Number(row.row.id) + 1}</div>;
-    },
-  },
   {
     Header: "Position",
     accessor: "nextprotPosition",
@@ -78,16 +72,34 @@ const Table = (props: TableProps) => {
   } = props;
 
   const getBackgroundColor = (index: string, cellId: string) => {
-    let value =
-      cellId === "polyphenPrediction"
-        ? data[Number(index)].polyphen
-        : data[Number(index)].sift;
+    const POLYPHEN_PREDICTION = {
+      BENIGN: "benign",
+      POSSIBLY_DAMAGING: "possibly_damaging",
+      PROBABLY_DAMAGING: "probably_damaging",
+    };
 
-    if (value) {
-      if (value > 0 && value <= 0.25) return "#e56565";
-      else if (value > 0.25 && value <= 0.75) return "#ffba5f";
-      else if (value > 0.75 && value <= 1) return "#85cc64";
-    }
+    const SIFT_PREDICTION = {
+      DELETERIOUS: "deleterious",
+      TOLERATED: "possibly_damaging",
+    };
+
+    const idx = Number(index);
+    const value =
+      cellId === "polyphenPrediction"
+        ? data[idx].polyphenPrediction!
+        : data[idx].siftPrediction!;
+
+    if (
+      value === POLYPHEN_PREDICTION.PROBABLY_DAMAGING ||
+      value === SIFT_PREDICTION.DELETERIOUS
+    )
+      return "#e56565";
+    else if (value === POLYPHEN_PREDICTION.BENIGN) return "#85cc64";
+    else if (
+      value === POLYPHEN_PREDICTION.POSSIBLY_DAMAGING ||
+      SIFT_PREDICTION.TOLERATED
+    )
+      return "#ffba5f";
   };
 
   const callGetPredictions = async (csvData: VariantData[]) => {
@@ -97,11 +109,13 @@ const Table = (props: TableProps) => {
     };
     setPredictionLoading(true);
     await getPredictions(data).then((res) => {
-      if (res) {
-        if (res.length < data.variants.length) setError(ERROR.PARTIAL_RESULTS);
+      if (Array.isArray(res) && res.length) {
+        const { parsedData } = parseData(res);
+        if (parsedData.length < data.variants.length)
+          setError(ERROR.PARTIAL_RESULTS);
         else setError("");
 
-        setData(res);
+        setData(parsedData);
         setPredictionLoading(false);
         return;
       }
