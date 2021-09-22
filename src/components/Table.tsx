@@ -94,12 +94,12 @@ const Table = (props: TableProps) => {
       value === SIFT_PREDICTION.DELETERIOUS
     )
       return "#e56565";
-    else if (value === POLYPHEN_PREDICTION.BENIGN) return "#85cc64";
     else if (
-      value === POLYPHEN_PREDICTION.POSSIBLY_DAMAGING ||
-      SIFT_PREDICTION.TOLERATED
+      value === POLYPHEN_PREDICTION.BENIGN ||
+      value === SIFT_PREDICTION.TOLERATED
     )
-      return "#ffba5f";
+      return "#85cc64";
+    else if (value === POLYPHEN_PREDICTION.POSSIBLY_DAMAGING) return "#ffba5f";
   };
 
   const callGetPredictions = async (csvData: VariantData[]) => {
