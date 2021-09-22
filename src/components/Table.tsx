@@ -80,7 +80,7 @@ const Table = (props: TableProps) => {
 
     const SIFT_PREDICTION = {
       DELETERIOUS: "deleterious",
-      TOLERATED: "possibly_damaging",
+      TOLERATED: "tolerated",
     };
 
     const idx = Number(index);
@@ -89,17 +89,14 @@ const Table = (props: TableProps) => {
         ? data[idx].polyphenPrediction!
         : data[idx].siftPrediction!;
 
-    if (
+    if (value === POLYPHEN_PREDICTION.POSSIBLY_DAMAGING) return "#ffba5f";
+    else if (
       value === POLYPHEN_PREDICTION.PROBABLY_DAMAGING ||
       value === SIFT_PREDICTION.DELETERIOUS
     )
       return "#e56565";
-    else if (
-      value === POLYPHEN_PREDICTION.BENIGN ||
-      value === SIFT_PREDICTION.TOLERATED
-    )
+    else if (value === POLYPHEN_PREDICTION.BENIGN || SIFT_PREDICTION.TOLERATED)
       return "#85cc64";
-    else if (value === POLYPHEN_PREDICTION.POSSIBLY_DAMAGING) return "#ffba5f";
   };
 
   const callGetPredictions = async (csvData: VariantData[]) => {
