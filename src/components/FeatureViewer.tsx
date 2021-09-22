@@ -74,12 +74,12 @@ const FeatureViewerComponent = () => {
           };
 
           getPredictions(data).then((res) => {
-            if (res) {
-              if (res.length < data.variants.length)
+            if (Array.isArray(res) && res.length) {
+              const { parsedData } = parseData(res);
+              if (parsedData.length < data.variants.length)
                 setError(ERROR.PARTIAL_RESULTS);
               else setError("");
 
-              const { parsedData } = parseData(res);
               setData(parsedData);
               setPredictionLoading(false);
               return;
