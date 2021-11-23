@@ -12,4 +12,5 @@ export const INSTRUCTIONS = {
   2: `Select multiple variants by clicking on the 'Add Variants' button and entering the desired variants with their positions.`,
   3: `The selected variant(s) will be displayed in the variant effect output table.`,
   4: `Click on the 'Get Predictions' button to view the SIFT and Polyphen-2 scores for the variant(s).`,
+  5: `Please note that short indels are not supported since the Ensembl VEP tool does not provide any SIFT/Polyphen scores for those variants.`,
 };
