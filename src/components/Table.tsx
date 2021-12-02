@@ -3,6 +3,7 @@ import {
   useSortBy,
   usePagination,
   useGlobalFilter,
+  Cell,
 } from "react-table";
 import { useExportData } from "react-table-plugins";
 import React, { useMemo } from "react";
@@ -45,6 +46,10 @@ const RESULT_COLUMN_DATA = [
   {
     Header: "Polyphen Prediction",
     accessor: "polyphenPrediction",
+  },
+  {
+    Header: "Status",
+    accessor: "status",
   },
 ];
 
@@ -97,6 +102,12 @@ const Table = (props: TableProps) => {
       return "#e56565";
     else if (value === POLYPHEN_PREDICTION.BENIGN || SIFT_PREDICTION.TOLERATED)
       return "#85cc64";
+  };
+
+  const getCellContent = (cell: Cell<VariantData, any>) => {
+    /*if (!cell.value || cell.value === -1) cell.value = -100;
+    console.log(cell.value);*/
+    return cell.render("Cell");
   };
 
   const callGetPredictions = async (csvData: VariantData[]) => {
@@ -233,6 +244,7 @@ const Table = (props: TableProps) => {
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
+            let errorRow = row.values.status === "ERROR" ? true : false;
             return (
               <tr {...row.getRowProps()} key={uuidv4()}>
                 {row.cells.map((cell) => {
@@ -243,12 +255,14 @@ const Table = (props: TableProps) => {
                           cell.column.id === "polyphenPrediction" ||
                           cell.column.id === "siftPrediction"
                             ? getBackgroundColor(cell.row.id, cell.column.id)
+                            : errorRow
+                            ? "#e56565"
                             : "#FFF",
                       }}
                       {...cell.getCellProps()}
                       key={uuidv4()}
                     >
-                      {cell.render("Cell")}
+                      {getCellContent(cell)}
                     </td>
                   );
                 })}

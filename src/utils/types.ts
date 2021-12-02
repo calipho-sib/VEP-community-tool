@@ -98,6 +98,7 @@ export type VariantData = {
   polyphen?: number;
   polyphenPrediction?: string;
   enspPosition?: number;
+  status?: string;
 };
 
 export type FeatureData = MetaData & {
