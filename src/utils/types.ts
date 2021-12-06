@@ -93,11 +93,12 @@ export type VariantData = {
   nextprotPosition: number;
   originalAminoAcid: string;
   variantAminoAcid: string;
-  sift?: number;
+  sift?: number | string;
   siftPrediction?: string;
-  polyphen?: number;
+  polyphen?: number | string;
   polyphenPrediction?: string;
   enspPosition?: number;
+  status?: string;
 };
 
 export type FeatureData = MetaData & {
