@@ -7,8 +7,8 @@ export const parseData = (variantData: VariantData[]) => {
   variantData.map((data) => {
     if (data.status === "ERROR") {
       errors.push(data);
-      data.sift = -1;
-      data.polyphen = -1;
+      data.sift = "";
+      data.polyphen = "";
     }
     // To show all the data (irrespective of errorneous variants)
     parsedData.push(data);

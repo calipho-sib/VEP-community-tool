@@ -76,32 +76,11 @@ const Table = (props: TableProps) => {
     fv,
   } = props;
 
-  const getBackgroundColor = (index: string, cellId: string) => {
-    const POLYPHEN_PREDICTION = {
-      BENIGN: "benign",
-      POSSIBLY_DAMAGING: "possibly_damaging",
-      PROBABLY_DAMAGING: "probably_damaging",
-    };
-
-    const SIFT_PREDICTION = {
-      DELETERIOUS: "deleterious",
-      TOLERATED: "tolerated",
-    };
-
-    const idx = Number(index);
-    const value =
-      cellId === "polyphenPrediction"
-        ? data[idx].polyphenPrediction!
-        : data[idx].siftPrediction!;
-
-    if (value === POLYPHEN_PREDICTION.POSSIBLY_DAMAGING) return "#ffba5f";
-    else if (
-      value === POLYPHEN_PREDICTION.PROBABLY_DAMAGING ||
-      value === SIFT_PREDICTION.DELETERIOUS
-    )
-      return "#e56565";
-    else if (value === POLYPHEN_PREDICTION.BENIGN || SIFT_PREDICTION.TOLERATED)
-      return "#85cc64";
+  const getTagClassname = (errorRow: boolean, rowHeader: any) => {
+    if (rowHeader === "Status") {
+      return errorRow ? "error-tag tag" : "ok-tag tag";
+    }
+    return "";
   };
 
   const getCellContent = (cell: Cell<VariantData, any>) => {
@@ -244,25 +223,26 @@ const Table = (props: TableProps) => {
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
-            let errorRow = row.values.status === "ERROR" ? true : false;
+            const errorRow = row.values.status === "ERROR";
             return (
               <tr {...row.getRowProps()} key={uuidv4()}>
                 {row.cells.map((cell) => {
                   return (
                     <td
                       style={{
-                        backgroundColor:
-                          cell.column.id === "polyphenPrediction" ||
-                          cell.column.id === "siftPrediction"
-                            ? getBackgroundColor(cell.row.id, cell.column.id)
-                            : errorRow
-                            ? "#e56565"
-                            : "#FFF",
+                        backgroundColor: errorRow ? "#fff6e8" : "#FFF",
                       }}
                       {...cell.getCellProps()}
                       key={uuidv4()}
                     >
-                      {getCellContent(cell)}
+                      <p
+                        className={getTagClassname(
+                          errorRow,
+                          cell.column.Header,
+                        )}
+                      >
+                        {getCellContent(cell)}
+                      </p>
                     </td>
                   );
                 })}

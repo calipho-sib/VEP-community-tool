@@ -242,3 +242,20 @@ body {
   width: auto;
   margin: 0 0.5rem;
 }
+
+.tag {
+  display: inline;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.error-tag {
+  background-color: #e95147;
+}
+
+.ok-tag {
+  background-color: #4dc35a;
+}
