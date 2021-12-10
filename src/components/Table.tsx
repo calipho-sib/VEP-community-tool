@@ -83,6 +83,48 @@ const Table = (props: TableProps) => {
     return "";
   };
 
+  const getBackgroundColor = (
+    index: string,
+    cellId: string,
+    errorRow: boolean,
+    getColumnColor: boolean,
+  ) => {
+    if (errorRow) return "#fff6e8";
+
+    if (getColumnColor) {
+      const POLYPHEN_PREDICTION = {
+        BENIGN: "benign",
+        POSSIBLY_DAMAGING: "possibly_damaging",
+        PROBABLY_DAMAGING: "probably_damaging",
+      };
+
+      const SIFT_PREDICTION = {
+        DELETERIOUS: "deleterious",
+        TOLERATED: "tolerated",
+      };
+
+      const idx = Number(index);
+      const value =
+        cellId === "polyphenPrediction"
+          ? data[idx].polyphenPrediction!
+          : data[idx].siftPrediction!;
+
+      if (value === POLYPHEN_PREDICTION.POSSIBLY_DAMAGING) return "#ffba5f";
+      else if (
+        value === POLYPHEN_PREDICTION.PROBABLY_DAMAGING ||
+        value === SIFT_PREDICTION.DELETERIOUS
+      )
+        return "#e56565";
+      else if (
+        value === POLYPHEN_PREDICTION.BENIGN ||
+        SIFT_PREDICTION.TOLERATED
+      )
+        return "#85cc64";
+    }
+
+    return "#ffffff";
+  };
+
   const getCellContent = (cell: Cell<VariantData, any>) => {
     /*if (!cell.value || cell.value === -1) cell.value = -100;
     console.log(cell.value);*/
@@ -227,10 +269,18 @@ const Table = (props: TableProps) => {
             return (
               <tr {...row.getRowProps()} key={uuidv4()}>
                 {row.cells.map((cell) => {
+                  const getColumnColor =
+                    cell.column.id === "polyphenPrediction" ||
+                    cell.column.id === "siftPrediction";
                   return (
                     <td
                       style={{
-                        backgroundColor: errorRow ? "#fff6e8" : "#FFF",
+                        backgroundColor: getBackgroundColor(
+                          cell.row.id,
+                          cell.column.id,
+                          errorRow,
+                          getColumnColor,
+                        ),
                       }}
                       {...cell.getCellProps()}
                       key={uuidv4()}
