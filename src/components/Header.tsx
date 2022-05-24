@@ -5,8 +5,9 @@ const Header = () => {
     <div className="header">
       <h1>
         The Variant Effect Predictor (VEP) helps scientists determine the
-        potential impact of non-synonymous single amino acid variants (SAAVs) by
-        returning the SIFT and Polyphen-2 scores.
+        potential impact of
+        <b> non-synonymous single amino acid variants (SAAVs) </b>
+        by returning the SIFT and Polyphen-2 scores.
       </h1>
     </div>
   );

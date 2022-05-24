@@ -8,9 +8,8 @@ export const ERROR = {
 export const TABLE_PAGE_SIZE = 10;
 
 export const INSTRUCTIONS = {
-  1: `Select a variant by clicking on its position in the sequence, entering the desired amino acid variation and clicking on the 'Add' button.`,
-  2: `Select multiple variants by clicking on the 'Add Variants' button and entering the desired variants with their positions.`,
+  1: `Select a missense variant by clicking on its position in the sequence, entering the desired amino acid variation and clicking on the 'Add' button.`,
+  2: `Select multiple missense variants by clicking on the 'Add Variants' button and entering the desired variants with their positions.`,
   3: `The selected variant(s) will be displayed in the variant effect output table.`,
   4: `Click on the 'Get Predictions' button to view the SIFT and Polyphen-2 scores for the variant(s).`,
-  5: `Please note that short indels are not supported since the Ensembl VEP tool does not provide any SIFT/Polyphen scores for those variants.`,
 };
