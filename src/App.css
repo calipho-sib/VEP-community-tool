@@ -149,22 +149,6 @@ body {
   height: 3rem;
 }
 
-.csv-instructions {
-  background-color: var(--grey-300);
-  padding-top: 10px;
-  padding-left: 10px;
-}
-
-.csv-instruction > table,
-th,
-td {
-  border-collapse: collapse;
-  border-spacing: 0px;
-  border: 1px solid #999;
-  padding: 0.5rem;
-  text-align: left;
-}
-
 .icon {
   height: 14px;
   width: auto;
