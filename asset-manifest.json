@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/VEP-community-tool/static/css/main.e735d5cd.chunk.css",
-    "main.js": "/VEP-community-tool/static/js/main.5067e254.chunk.js",
-    "main.js.map": "/VEP-community-tool/static/js/main.5067e254.chunk.js.map",
+    "main.css": "/VEP-community-tool/static/css/main.6c49bc71.chunk.css",
+    "main.js": "/VEP-community-tool/static/js/main.f32d8fff.chunk.js",
+    "main.js.map": "/VEP-community-tool/static/js/main.f32d8fff.chunk.js.map",
     "runtime-main.js": "/VEP-community-tool/static/js/runtime-main.14fdec48.js",
     "runtime-main.js.map": "/VEP-community-tool/static/js/runtime-main.14fdec48.js.map",
     "static/css/2.654c004e.chunk.css": "/VEP-community-tool/static/css/2.654c004e.chunk.css",
@@ -12,7 +12,7 @@
     "static/js/3.5a361054.chunk.js.map": "/VEP-community-tool/static/js/3.5a361054.chunk.js.map",
     "index.html": "/VEP-community-tool/index.html",
     "static/css/2.654c004e.chunk.css.map": "/VEP-community-tool/static/css/2.654c004e.chunk.css.map",
-    "static/css/main.e735d5cd.chunk.css.map": "/VEP-community-tool/static/css/main.e735d5cd.chunk.css.map",
+    "static/css/main.6c49bc71.chunk.css.map": "/VEP-community-tool/static/css/main.6c49bc71.chunk.css.map",
     "static/js/2.b44a2ae9.chunk.js.LICENSE.txt": "/VEP-community-tool/static/js/2.b44a2ae9.chunk.js.LICENSE.txt",
     "static/media/down_arrow_icon.4f1d5ef1.svg": "/VEP-community-tool/static/media/down_arrow_icon.4f1d5ef1.svg",
     "static/media/error_icon.ee07de12.svg": "/VEP-community-tool/static/media/error_icon.ee07de12.svg",
@@ -26,7 +26,7 @@
     "static/js/runtime-main.14fdec48.js",
     "static/css/2.654c004e.chunk.css",
     "static/js/2.b44a2ae9.chunk.js",
-    "static/css/main.e735d5cd.chunk.css",
-    "static/js/main.5067e254.chunk.js"
+    "static/css/main.6c49bc71.chunk.css",
+    "static/js/main.f32d8fff.chunk.js"
   ]
 }
