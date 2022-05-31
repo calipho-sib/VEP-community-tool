@@ -17,6 +17,7 @@ import * as Icon from "../assets/icons/index";
 import { getPredictions } from "../utils/service";
 import Loader from "./Loader";
 import { parseData } from "../utils/helpers/parseData";
+import CSVInstructions from "./CSVInstructions";
 
 const RESULT_COLUMN_DATA = [
   {
@@ -220,6 +221,7 @@ const Table = (props: TableProps) => {
           </button>
         </div>
       </div>
+      <CSVInstructions />
       <table {...getTableProps()} className="variant-data-table">
         <thead>
           {headerGroups.map((headerGroup) => {
