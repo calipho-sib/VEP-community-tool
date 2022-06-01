@@ -193,7 +193,7 @@ body {
 }
 
 .instructions-list > p {
-  display: inline-block;
+  display: inline;
   margin: 0;
   padding-left: 0.3rem;
   color: var(--grey-600);
