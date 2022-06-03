@@ -16,15 +16,16 @@ const CSVInstructions = () => {
           CFTR
         </a>
         <br />
-        <strong>nextprotPosition,originalAminoAcid,variantAminoAcid</strong>
-        <br />
-        44,D,G
-        <br />
-        110,D,H
-        <br />
-        170,R,H
-        <br />
       </p>
+      <p>
+        <strong>nextprotPosition,originalAminoAcid,variantAminoAcid</strong>
+      </p>
+      <br />
+      <p>44,D,G</p>
+      <br />
+      <p>110,D,H</p>
+      <br />
+      <p>170,R,H</p>
     </div>
   );
 };
