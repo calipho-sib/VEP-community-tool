@@ -12,12 +12,20 @@ type FileInfo = {
   type: string;
 };
 
+const header = "nextprotPosition,originalAminoAcid,variantAminoAcid\r\n";
+
 const papaparseOptions = {
   header: true,
   dynamicTyping: true,
   skipEmptyLines: true,
   transformHeader: (header: string) => {
     return header.replace(/\W/g, "-");
+  },
+  beforeFirstChunk(chunk: string): string | void {
+    if (!chunk.startsWith("nextprotPosition")) {
+      chunk = header.concat(chunk);
+      return chunk;
+    }
   },
 };
 
