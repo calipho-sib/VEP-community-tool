@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/VEP-community-tool/static/css/main.f64af5bb.chunk.css",
-    "main.js": "/VEP-community-tool/static/js/main.495f0ce8.chunk.js",
-    "main.js.map": "/VEP-community-tool/static/js/main.495f0ce8.chunk.js.map",
+    "main.js": "/VEP-community-tool/static/js/main.ccbfb0da.chunk.js",
+    "main.js.map": "/VEP-community-tool/static/js/main.ccbfb0da.chunk.js.map",
     "runtime-main.js": "/VEP-community-tool/static/js/runtime-main.14fdec48.js",
     "runtime-main.js.map": "/VEP-community-tool/static/js/runtime-main.14fdec48.js.map",
     "static/css/2.654c004e.chunk.css": "/VEP-community-tool/static/css/2.654c004e.chunk.css",
@@ -27,6 +27,6 @@
     "static/css/2.654c004e.chunk.css",
     "static/js/2.b44a2ae9.chunk.js",
     "static/css/main.f64af5bb.chunk.css",
-    "static/js/main.495f0ce8.chunk.js"
+    "static/js/main.ccbfb0da.chunk.js"
   ]
 }
