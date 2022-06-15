@@ -23,6 +23,11 @@ const papaparseOptions = {
   },
   beforeFirstChunk(chunk: string): string | void {
     if (!chunk.startsWith("nextprotPosition")) {
+      // Check if there is another header
+      if (!chunk.split(",")[0].match("^[0-9]+ ")) {
+        // Need to remove the header first
+        chunk = chunk.substring(chunk.indexOf("\n") + 1, chunk.length);
+      }
       chunk = header.concat(chunk);
       return chunk;
     }
