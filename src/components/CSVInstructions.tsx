@@ -26,6 +26,11 @@ const CSVInstructions = () => {
       <p>110,D,H</p>
       <br />
       <p>170,R,H</p>
+      <br />
+      <br />
+      <p>
+        <b>Note: Maximum number of variants is 200</b>
+      </p>
     </div>
   );
 };

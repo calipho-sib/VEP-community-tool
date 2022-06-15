@@ -77,6 +77,10 @@ const Table = (props: TableProps) => {
     fv,
   } = props;
 
+  const MAX_VARIANTS = 200;
+
+  let dataLimitExceeded = false;
+
   const getTagClassname = (errorRow: boolean, rowHeader: any) => {
     if (rowHeader === "Status") {
       return errorRow ? "error-tag tag" : "ok-tag tag";
@@ -127,8 +131,6 @@ const Table = (props: TableProps) => {
   };
 
   const getCellContent = (cell: Cell<VariantData, any>) => {
-    /*if (!cell.value || cell.value === -1) cell.value = -100;
-    console.log(cell.value);*/
     return cell.render("Cell");
   };
 
@@ -137,13 +139,24 @@ const Table = (props: TableProps) => {
       isoform: isoName,
       variants: csvData,
     };
+
+    // Check if the limit of 200 variants (maximum supported by VEP API) is exceeded
+    if (csvData.length > MAX_VARIANTS) {
+      data.variants = data.variants.slice(0, 199);
+      dataLimitExceeded = true;
+    }
+
     setPredictionLoading(true);
     await getPredictions(data).then((res) => {
       if (Array.isArray(res) && res.length) {
         const { parsedData } = parseData(res);
-        if (parsedData.length < data.variants.length)
+        if (parsedData.length < data.variants.length) {
           setError(ERROR.PARTIAL_RESULTS);
-        else setError("");
+        } else if (dataLimitExceeded) {
+          setError(ERROR.LIMIT_EXCEEDED);
+        } else {
+          setError("");
+        }
 
         setData(parsedData);
         setPredictionLoading(false);

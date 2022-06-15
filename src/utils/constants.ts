@@ -2,6 +2,8 @@ export const ERROR = {
   NOT_FOUND: "Couldn't find entry data.",
   PARTIAL_RESULTS:
     "Please note that variants returning an error have been omitted.",
+  LIMIT_EXCEEDED:
+    "You have exceeded the limit of 200 variants, only partial results are shown",
   NO_RESULTS: "Impossible to return results! Please check your variant data.",
 };
 
