@@ -5201,10 +5201,10 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-feature-viewer@1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/feature-viewer/-/feature-viewer-1.4.2.tgz#c1738060deba78bfa0754a5a34506f9bc8eff0cf"
-  integrity sha512-ks8XTgLXf7eF0fzsDgsTrTNnGiF6dX2ML/V9xnbnvHbFLGLE4giKd01stBpwFk6wLSMcrMMLrn1qkjAH2AJv6g==
+feature-viewer@1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/feature-viewer/-/feature-viewer-1.4.4.tgz#c3ff0ba19173c39a6fcff14170ca3f847cb78ddd"
+  integrity sha512-D100c6QyMxx2mqkdkdG5Tzn+pNHBZqoV1BIuQjTGwwFX3wsMXlqUsbzLn2GDj+phMWpv/cXbJU/wUtTRRDmn8w==
   dependencies:
     "@popperjs/core" "^2.9.2"
     biojs-events x.x.x
