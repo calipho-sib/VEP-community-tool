@@ -69,6 +69,85 @@ export function getFeaturesByIsoform(rawData: any, metaData: MetaData[]) {
     );
 
     featForViewer = NXViewerUtils.convertNXAnnotations(feat, metaData[i], {});
+
+    let frequencyFeature: any = {};
+    let frequencyMinValues: any = {};
+    if (rawData[i].annot.length > 0) {
+      if (rawData[i].annot[0].apicategory === "VARIANT") {
+        // Get target isoform details
+        rawData[i].annot.map(function (variant: any) {
+          let variantAnnotation = variant;
+          // Add isoforms available
+          Object.keys(variant.targetingIsoformsMap).forEach((isoform) => {
+            if (!(isoform in frequencyFeature)) {
+              frequencyFeature[isoform] = [];
+            }
+
+            let frequencyEvidence = variant.evidences.filter(
+              (evidence: any) => {
+                return evidence.assignedBy === "gnomAD";
+              },
+            );
+
+            if (frequencyEvidence.length > 0) {
+              frequencyEvidence = frequencyEvidence[0];
+              let frequency = Number(
+                frequencyEvidence.properties["allele frequency"],
+              );
+
+              // Check if the variant has isoform specific position
+              let variantFrequencyDetails: any = {};
+              variantFrequencyDetails["x"] =
+                variant.targetingIsoformsMap[isoform]["firstPosition"];
+              variantFrequencyDetails["y"] = frequency;
+              variantFrequencyDetails[
+                "id"
+              ] = `FREQUENCY_Variant_${variantFrequencyDetails["x"]}_${variantFrequencyDetails["x"]}_${variantAnnotation.uniqueName}`;
+              variantFrequencyDetails["category"] = "Frequency";
+              let variantDescription = `${variantAnnotation.variant.original} → ${variantAnnotation.variant.variant}`;
+
+              variantFrequencyDetails[
+                "description"
+              ] = `<span>${variant.targetingIsoformsMap[isoform]["firstPosition"]}<br/>${variantDescription}<br/>${frequency}</span>`;
+              frequencyFeature[isoform].push(variantFrequencyDetails);
+
+              if (isoform in frequencyMinValues) {
+                if (frequencyMinValues[isoform] > frequency) {
+                  frequencyMinValues[isoform] = frequency;
+                }
+              } else {
+                frequencyMinValues[isoform] = frequency;
+              }
+            }
+          });
+        });
+      }
+
+      Object.keys(frequencyFeature).forEach(function (isoform) {
+        frequencyFeature[isoform].forEach(function (variant: any) {
+          variant["y"] =
+            -Math.log10(frequencyMinValues[isoform]) +
+            0.2 +
+            Math.log10(variant["y"]);
+        });
+      });
+
+      if (Object.keys(frequencyFeature).length !== 0) {
+        let frequencyFeatureForViewer: any = {};
+        Object.keys(frequencyFeature).forEach(function (key) {
+          let x = {
+            className: "freq",
+            color: "#B3B3C2",
+            name: "Frequency (Log)",
+            type: "bar",
+            filter: "Frequency",
+            data: frequencyFeature[key],
+          };
+          frequencyFeatureForViewer[key] = x;
+        });
+        featuresForViewer.push(frequencyFeatureForViewer);
+      }
+    }
     featuresForViewer.push(featForViewer);
   }
   return featuresForViewer;
