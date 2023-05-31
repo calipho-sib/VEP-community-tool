@@ -114,6 +114,7 @@ const Table = (props: TableProps) => {
           ? data[idx].polyphenPrediction!
           : data[idx].siftPrediction!;
 
+      if (!value) return "#ffffff";
       if (value === POLYPHEN_PREDICTION.POSSIBLY_DAMAGING) return "#ffba5f";
       else if (
         value === POLYPHEN_PREDICTION.PROBABLY_DAMAGING ||
