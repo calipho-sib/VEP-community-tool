@@ -6,7 +6,7 @@ import {
   Cell,
 } from "react-table";
 import { useExportData } from "react-table-plugins";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { getExportFileBlob } from "../utils/helpers/exportFile";
@@ -137,6 +137,7 @@ const Table = (props: TableProps) => {
 
   const callGetPredictions = async (csvData: VariantData[]) => {
     const data = {
+      version: vepVersion,
       isoform: isoName,
       variants: csvData,
     };
@@ -205,6 +206,12 @@ const Table = (props: TableProps) => {
     usePagination,
   );
 
+  const [vepVersion, setVepVersion] = useState("107");
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setVepVersion(event.target.value);
+  };
+
   return (
     <div className="variant-table-container">
       {error && (
@@ -216,6 +223,19 @@ const Table = (props: TableProps) => {
       <div className="table-header">
         <CSVUpload callGetPredictions={callGetPredictions} />
         <div style={{ marginLeft: "auto" }}>
+          <div
+            style={{
+              display: "inline",
+              paddingRight: "15px",
+              verticalAlign: "middle",
+            }}
+          >
+            <span style={{ paddingRight: "10px" }}>Ensembl VEP Version</span>
+            <select value={vepVersion} onChange={handleSelectChange}>
+              <option value="107">107</option>
+              <option value="109">109</option>
+            </select>
+          </div>
           <button
             className="btn get-predictions-btn"
             onClick={() => {

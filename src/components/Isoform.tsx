@@ -54,7 +54,11 @@ const Isoform = ({ isoform, handleIsoformChange }: IsoformProps) => {
         label: <LabelComponent isoform={iso.isoform} offset={iso.offset} />,
         disabled: iso.offset < 0 ? true : false,
       };
-      optionMap.push(option);
+      if (
+        !optionMap.some((currentOption) => currentOption.value === option.value)
+      ) {
+        optionMap.push(option);
+      }
     });
     setOptions(optionMap);
     setSelectedOption(optionMap[0]);
