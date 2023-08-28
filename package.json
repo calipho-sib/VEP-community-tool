@@ -20,7 +20,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "axios": "^0.21.1",
-    "feature-viewer": "1.4.4",
+    "feature-viewer": "1.5.0",
     "http-proxy-middleware": "^2.0.6",
     "match-sorter": "^6.3.0",
     "papaparse": "^5.3.1",

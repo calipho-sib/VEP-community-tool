@@ -6,7 +6,7 @@ import {
   Cell,
 } from "react-table";
 import { useExportData } from "react-table-plugins";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { getExportFileBlob } from "../utils/helpers/exportFile";
@@ -105,6 +105,7 @@ const Table = (props: TableProps) => {
 
       const SIFT_PREDICTION = {
         DELETERIOUS: "deleterious",
+        DELETERIOUS_LOW_CONFIDENCE: "deleterious_low_confidence",
         TOLERATED: "tolerated",
       };
 
@@ -121,6 +122,8 @@ const Table = (props: TableProps) => {
         value === SIFT_PREDICTION.DELETERIOUS
       )
         return "#e56565";
+      else if (value === SIFT_PREDICTION.DELETERIOUS_LOW_CONFIDENCE)
+        return "#ffba5f";
       else if (
         value === POLYPHEN_PREDICTION.BENIGN ||
         SIFT_PREDICTION.TOLERATED
@@ -136,6 +139,7 @@ const Table = (props: TableProps) => {
   };
 
   const callGetPredictions = async (csvData: VariantData[]) => {
+    setResultRequesting(true);
     const data = {
       version: vepVersion,
       isoform: isoName,
@@ -162,6 +166,7 @@ const Table = (props: TableProps) => {
 
         setData(parsedData);
         setPredictionLoading(false);
+        setResultRequesting(false);
         return;
       }
       setError(ERROR.NO_RESULTS);
@@ -207,21 +212,37 @@ const Table = (props: TableProps) => {
   );
 
   const [vepVersion, setVepVersion] = useState("107");
+  const [csvData, setCSVData] = useState<VariantData[]>([]);
+  const [resultRequesting, setResultRequesting] = useState(false);
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleVersionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setVepVersion(event.target.value);
   };
 
+  useEffect(() => {
+    if (csvData.length > 0) {
+      callGetPredictions(csvData);
+    } else {
+      if (fv) {
+        let data = fv.getPredictions();
+        callGetPredictions(data);
+      }
+    }
+  }, [vepVersion]);
+
   return (
     <div className="variant-table-container">
-      {error && (
+      {!resultRequesting && error && (
         <div className="error-message">
           <img src={Icon.Error} alt="Error" />
           <p>{error}</p>
         </div>
       )}
       <div className="table-header">
-        <CSVUpload callGetPredictions={callGetPredictions} />
+        <CSVUpload
+          callGetPredictions={callGetPredictions}
+          setCSVData={setCSVData}
+        />
         <div style={{ marginLeft: "auto" }}>
           <div
             style={{
@@ -231,7 +252,7 @@ const Table = (props: TableProps) => {
             }}
           >
             <span style={{ paddingRight: "10px" }}>Ensembl VEP Version</span>
-            <select value={vepVersion} onChange={handleSelectChange}>
+            <select value={vepVersion} onChange={handleVersionChange}>
               <option value="107">107</option>
               <option value="109">109</option>
             </select>
@@ -242,6 +263,7 @@ const Table = (props: TableProps) => {
               let data = fv.getPredictions();
               callGetPredictions(data);
             }}
+            disabled={resultRequesting}
           >
             Get Predictions
           </button>
@@ -256,87 +278,94 @@ const Table = (props: TableProps) => {
         </div>
       </div>
       <CSVInstructions />
-      <table {...getTableProps()} className="variant-data-table">
-        <thead>
-          {headerGroups.map((headerGroup) => {
-            return (
-              <tr {...headerGroup.getHeaderGroupProps()} key={uuidv4()}>
-                {headerGroup.headers.map((column) => {
-                  return (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      key={uuidv4()}
-                    >
-                      {column.render("Header")}
-                      <span>
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <img
-                              src={Icon.DownArrow}
-                              className="icon"
-                              alt="Down arrow icon"
-                            />
-                          ) : (
-                            <img
-                              src={Icon.UpArrow}
-                              className="icon"
-                              alt="Down arrow icon"
-                            />
-                          )
-                        ) : (
-                          <img
-                            src={Icon.Sort}
-                            className="icon"
-                            alt="Down arrow icon"
-                          />
-                        )}
-                      </span>
-                    </th>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            const errorRow = row.values.status === "ERROR";
-            return (
-              <tr {...row.getRowProps()} key={uuidv4()}>
-                {row.cells.map((cell) => {
-                  const getColumnColor =
-                    cell.column.id === "polyphenPrediction" ||
-                    cell.column.id === "siftPrediction";
-                  return (
-                    <td
-                      style={{
-                        backgroundColor: getBackgroundColor(
-                          cell.row.id,
-                          cell.column.id,
-                          errorRow,
-                          getColumnColor,
-                        ),
-                      }}
-                      {...cell.getCellProps()}
-                      key={uuidv4()}
-                    >
-                      <p
-                        className={getTagClassname(
-                          errorRow,
-                          cell.column.Header,
-                        )}
-                      >
-                        {getCellContent(cell)}
-                      </p>
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {!resultRequesting && (
+        <>
+          <h6>Results for Ensembl version {vepVersion}</h6>
+          <table {...getTableProps()} className="variant-data-table">
+            <thead>
+              {headerGroups.map((headerGroup) => {
+                return (
+                  <tr {...headerGroup.getHeaderGroupProps()} key={uuidv4()}>
+                    {headerGroup.headers.map((column) => {
+                      return (
+                        <th
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps(),
+                          )}
+                          key={uuidv4()}
+                        >
+                          {column.render("Header")}
+                          <span>
+                            {column.isSorted ? (
+                              column.isSortedDesc ? (
+                                <img
+                                  src={Icon.DownArrow}
+                                  className="icon"
+                                  alt="Down arrow icon"
+                                />
+                              ) : (
+                                <img
+                                  src={Icon.UpArrow}
+                                  className="icon"
+                                  alt="Down arrow icon"
+                                />
+                              )
+                            ) : (
+                              <img
+                                src={Icon.Sort}
+                                className="icon"
+                                alt="Down arrow icon"
+                              />
+                            )}
+                          </span>
+                        </th>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {page.map((row) => {
+                prepareRow(row);
+                const errorRow = row.values.status === "ERROR";
+                return (
+                  <tr {...row.getRowProps()} key={uuidv4()}>
+                    {row.cells.map((cell) => {
+                      const getColumnColor =
+                        cell.column.id === "polyphenPrediction" ||
+                        cell.column.id === "siftPrediction";
+                      return (
+                        <td
+                          style={{
+                            backgroundColor: getBackgroundColor(
+                              cell.row.id,
+                              cell.column.id,
+                              errorRow,
+                              getColumnColor,
+                            ),
+                          }}
+                          {...cell.getCellProps()}
+                          key={uuidv4()}
+                        >
+                          <p
+                            className={getTagClassname(
+                              errorRow,
+                              cell.column.Header,
+                            )}
+                          >
+                            {getCellContent(cell)}
+                          </p>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </>
+      )}
       {predictionLoading && (
         <>
           <p className="table-text">

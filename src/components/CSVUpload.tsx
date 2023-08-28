@@ -4,6 +4,7 @@ import { VariantData } from "../utils/types";
 
 type Props = {
   callGetPredictions: (data: VariantData[]) => void;
+  setCSVData: (data: VariantData[]) => void;
 };
 
 type FileInfo = {
@@ -34,10 +35,11 @@ const papaparseOptions = {
   },
 };
 
-const CSVUpload = ({ callGetPredictions }: Props) => {
+const CSVUpload = ({ callGetPredictions, setCSVData }: Props) => {
   const [fileName, setFileName] = useState("");
 
   const handleForce = (data: VariantData[], fileInfo: FileInfo) => {
+    setCSVData(data);
     callGetPredictions(data);
     setFileName(fileInfo.name);
   };
