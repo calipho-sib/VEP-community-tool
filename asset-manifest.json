@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/VEP-community-tool/static/css/main.f64af5bb.chunk.css",
-    "main.js": "/VEP-community-tool/static/js/main.5583245d.chunk.js",
-    "main.js.map": "/VEP-community-tool/static/js/main.5583245d.chunk.js.map",
+    "main.js": "/VEP-community-tool/static/js/main.742752e6.chunk.js",
+    "main.js.map": "/VEP-community-tool/static/js/main.742752e6.chunk.js.map",
     "runtime-main.js": "/VEP-community-tool/static/js/runtime-main.14fdec48.js",
     "runtime-main.js.map": "/VEP-community-tool/static/js/runtime-main.14fdec48.js.map",
     "static/css/2.654c004e.chunk.css": "/VEP-community-tool/static/css/2.654c004e.chunk.css",
-    "static/js/2.bdb2a853.chunk.js": "/VEP-community-tool/static/js/2.bdb2a853.chunk.js",
-    "static/js/2.bdb2a853.chunk.js.map": "/VEP-community-tool/static/js/2.bdb2a853.chunk.js.map",
+    "static/js/2.b6c67b41.chunk.js": "/VEP-community-tool/static/js/2.b6c67b41.chunk.js",
+    "static/js/2.b6c67b41.chunk.js.map": "/VEP-community-tool/static/js/2.b6c67b41.chunk.js.map",
     "static/js/3.5a361054.chunk.js": "/VEP-community-tool/static/js/3.5a361054.chunk.js",
     "static/js/3.5a361054.chunk.js.map": "/VEP-community-tool/static/js/3.5a361054.chunk.js.map",
     "index.html": "/VEP-community-tool/index.html",
     "static/css/2.654c004e.chunk.css.map": "/VEP-community-tool/static/css/2.654c004e.chunk.css.map",
     "static/css/main.f64af5bb.chunk.css.map": "/VEP-community-tool/static/css/main.f64af5bb.chunk.css.map",
-    "static/js/2.bdb2a853.chunk.js.LICENSE.txt": "/VEP-community-tool/static/js/2.bdb2a853.chunk.js.LICENSE.txt",
+    "static/js/2.b6c67b41.chunk.js.LICENSE.txt": "/VEP-community-tool/static/js/2.b6c67b41.chunk.js.LICENSE.txt",
     "static/media/down_arrow_icon.4f1d5ef1.svg": "/VEP-community-tool/static/media/down_arrow_icon.4f1d5ef1.svg",
     "static/media/error_icon.ee07de12.svg": "/VEP-community-tool/static/media/error_icon.ee07de12.svg",
     "static/media/github_corner.e1cb9ed8.svg": "/VEP-community-tool/static/media/github_corner.e1cb9ed8.svg",
@@ -25,8 +25,8 @@
   "entrypoints": [
     "static/js/runtime-main.14fdec48.js",
     "static/css/2.654c004e.chunk.css",
-    "static/js/2.bdb2a853.chunk.js",
+    "static/js/2.b6c67b41.chunk.js",
     "static/css/main.f64af5bb.chunk.css",
-    "static/js/main.5583245d.chunk.js"
+    "static/js/main.742752e6.chunk.js"
   ]
 }
